@@ -13,3 +13,6 @@
  *= require_tree .
  *= require_self
  */
+.jumbotron {
+  background-color: #599c0e;
+}
