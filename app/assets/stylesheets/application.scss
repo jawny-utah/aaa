@@ -13,4 +13,40 @@
  *= require_tree .
  *= require_self
  */
- @import "bootstrap";
+@import "bootstrap";
+.jumbotron {
+    background-color: #b8171742;
+    border-color: #ff0000b3;
+    border-width: 4px;
+    padding: 2rem 2rem;
+    margin-top: 5px;
+}
+
+.page-footer{
+    background-color: #b8171742;
+    border-color: #ff0000b3;
+    border-width: 2rem;
+}
+
+.img-portret{
+  zoom: 1;
+  clear: left;
+  float: left;
+  width: 50%;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+.img-responsive{
+  clear: left;
+  float: left;
+  width: 50%;
+  margin-right: 10px;
+}
+
+ol, ul, dl {
+    margin-top: 0;
+    margin-bottom: 0rem;
+}
+ul{
+  padding-inline-start: 40px;
+}
