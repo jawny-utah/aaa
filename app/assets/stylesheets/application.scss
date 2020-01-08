@@ -14,18 +14,40 @@
  *= require_self
  */
 @import "bootstrap";
-.jumbotron {
-    background-color: #b8171742;
-    border-color: #ff0000b3;
-    border-width: 4px;
-    padding: 2rem 2rem;
-    margin-top: 5px;
+.album{
+  margin-top: 50px;
+  height: 1300px;
+  padding: 0px;
 }
 
-.page-footer{
-    background-color: #b8171742;
-    border-color: #ff0000b3;
-    border-width: 2rem;
+.body{
+  padding-top:60px;
+  padding-bottom:20px;
+}
+.jumbotron {
+    background-color: #17b88b;
+    border-color: #17b88b;
+    padding: 2rem 2rem;
+}
+
+.footer{
+  bottom: 0;
+  height: 40px;
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.fixed-header{
+  top: 0;
+  z-index: 1;
+}
+
+.footer, .fixed-header{
+    background-color: #17b88b;
+    border-color: #17b88b;
+    position: fixed;
+    width: 100%;
+    text-align: center;
 }
 
 .img-portret{
@@ -49,4 +71,15 @@ ol, ul, dl {
 }
 ul{
   padding-inline-start: 40px;
+}
+.container-fluid{
+  margin-right: 0px;
+  margin-left: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 10px;
+}
+.row{
+  margin-left: 0px;
+  margin-right: 0px;
 }
