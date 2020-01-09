@@ -1,11 +1,14 @@
 ActiveAdmin.register User do
-  permit_params :email, :role, :password, :password_confirmation
+  permit_params :email, :role, :birthday, :password, :password_confirmation
 
   index do
     selectable_column
     id_column
     column :email
     column :created_at
+    column :birthday do |user|
+      user.birthday
+    end
     column :role do |user|
       user.role unless user.role.blank?
     end
@@ -16,6 +19,9 @@ ActiveAdmin.register User do
     attributes_table do
       row :name
       row :email
+      row :birthday do |user|
+        user.birthday
+      end
       row :role do |user|
         user.role unless user.role.blank?
       end
@@ -30,6 +36,7 @@ ActiveAdmin.register User do
   form do |f|
     f.inputs do
       f.input :email
+      f.input :birthday
       f.input :role
     end
     f.actions
