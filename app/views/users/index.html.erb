@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <div class="fixed-header">
-      <div class="container">
-        <h1 class="text-center"><b>Адаптивная по ширине</b></h1>
+  <main role="main">
+    <section class="text-center">
+      <div class="container-fluid">
+        <h1 class="jumbotron card text-center"><b>Адаптивная по ширине
+        <br>
+        <a rel="nofollow" date-method="get" href="/users/sign_in">Sign in</a>
+        <a rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a>
+        </b></h1>
       </div>
     </div>
     <div class="album">
@@ -89,59 +94,19 @@
                   </div>
                   <div class="media3">
                     <div class="media-body pt-3">
-                      <img class="img-portret lead-image" alt="Title-content" src="https://sitepark.ua/images/verstka/images/photo.jpg" style="max-width:145px; height:auto;"/>
                         <div class="block-text">
-                          <h4 class="d-block pb-0 mb-0"> <b>Title</b> </h4>
-                          <small class="text-gray">Month dd, yyyy </small>
-                          <p class="media-body pb-3 mb-0">
-                            Content content content content content content content content content content content content content content content content
-                          </p>
-                          <a href="#">Link</a>
+                              <% @users.each do |user| %>
+                                <p>
+                                  <h4 class="d-block pb-0 mb-0"> Email: <b><%= user.email %></b></h4>
+                                  <p> User role: <b><%= user.role %></b></p>
+                                  <p> Date of birth: <%= user.birthday %></p>
+                                  <% if current_user&.admin?%>
+                                    <%= link_to "Edit user", edit_admin_user_path(user)%>
+                                  <hr>
+                                  </p>
+                              <% end %>
+                        <% end %>
                       </div>
-                    </div>
-                  </div>
-                  <div class="media4">
-                    <div class="media-body pt-4">
-                      <img class="img-portret lead-image" alt="Title-content" src="https://sitepark.ua/images/verstka/images/photo.jpg" style="max-width:145px; height:auto;"/>
-                        <h4 class="d-block pb-0 mb-0"> <b>Title</b> </h4>
-                        <small class="text-gray">Month dd, yyyy </small>
-                        <p class="media-body pb-3 mb-0">
-                          Content content content content content content content content content content content content content content content content
-                        </p>
-                        <a href="#">Link</a>
-                    </div>
-                  </div>
-                  <div class="media5">
-                    <div class="media-body pt-4">
-                      <img class="img-portret lead-image" alt="Title-content" src="https://sitepark.ua/images/verstka/images/photo.jpg" style="max-width:145px; height:auto;"/>
-                        <h4 class="d-block pb-0 mb-0"> <b>Title</b> </h4>
-                        <small class="text-gray">Month dd, yyyy </small>
-                        <p class="media-body pb-3 mb-0">
-                          Content content content content content content content content content content content content content content content content
-                        </p>
-                        <a href="#">Link</a>
-                    </div>
-                  </div>
-                  <div class="media6">
-                    <div class="media-body pt-4">
-                      <img class="img-portret lead-image" alt="Title-content" src="https://sitepark.ua/images/verstka/images/photo.jpg" style="max-width:145px; height:auto;"/>
-                        <h4 class="d-block pb-0 mb-0"> <b>Title</b> </h4>
-                        <small class="text-gray">Month dd, yyyy </small>
-                        <p class="media-body pb-3 mb-0">
-                          Content content content content content content content content content content content content content content content content
-                        </p>
-                        <a href="#">Link</a>
-                    </div>
-                  </div>
-                  <div class="media7">
-                    <div class="media-body pt-4">
-                      <img class="img-portret lead-image" alt="Title-content" src="https://sitepark.ua/images/verstka/images/photo.jpg" style="max-width:145px; height:auto;"/>
-                        <b><h4 class="d-block pb-0 mb-0"> <b>Title</b> </h4></b>
-                        <small class="text-gray">Month dd, yyyy </small>
-                        <p class="media-body pb-3 mb-0">
-                          Content content content content content content content content content content content content content content content content
-                        </p>
-                        <a href="#">Link</a>
                     </div>
                   </div>
                 </div>
