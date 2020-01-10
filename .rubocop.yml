@@ -9,7 +9,7 @@ AllCops:
    - 'db/schema.rb'
    - 'vendor/bundle/**/*'
    - 'node_modules/**/*'
-   - 'spec/**/*'
+   - 'spec/*'
    - 'config/environments/*'
 
 Metrics/AbcSize:
