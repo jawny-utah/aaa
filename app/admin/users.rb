@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register User do
   permit_params :email, :role, :birthday, :password, :password_confirmation
 
@@ -6,11 +8,9 @@ ActiveAdmin.register User do
     id_column
     column :email
     column :created_at
-    column :birthday do |user|
-      user.birthday
-    end
+    column :birthday, &:birthday
     column :role do |user|
-      user.role unless user.role.blank?
+      user.role.presence
     end
     actions
   end
@@ -19,11 +19,9 @@ ActiveAdmin.register User do
     attributes_table do
       row :name
       row :email
-      row :birthday do |user|
-        user.birthday
-      end
+      row :birthday, &:birthday
       row :role do |user|
-        user.role unless user.role.blank?
+        user.role.presence
       end
     end
   end
