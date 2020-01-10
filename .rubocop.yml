@@ -1,1 +1,135 @@
-inherit_from: .rubocop_todo.yml
+require:
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+  TargetRubyVersion: 2.6.3
+  Exclude:
+   - 'bin/*'
+   - 'db/schema.rb'
+   - 'vendor/bundle/**/*'
+   - 'client/node_modules/**/*'
+
+Metrics/AbcSize:
+  Max: 25
+  Exclude:
+    - 'db/migrate/*'
+
+Metrics/PerceivedComplexity:
+  Max: 10
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/ParameterLists:
+  Max: 6
+
+Metrics/BlockNesting:
+  Max: 4
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Security/Open:
+  Enabled: false
+
+Lint/UriEscapeUnescape:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Lint/UselessAccessModifier:
+  Enabled: false
+
+Metrics/BlockLength:
+  Max: 30
+  Exclude:
+    - 'app/admin/**/*'
+    - 'config/**/*'
+    - 'db/migrate/*'
+    - 'spec/**/*'
+    - 'lib/tasks/*'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/*'
+
+Rails:
+  Enabled: true
+
+Naming/RescuedExceptionsVariableName:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+Style/Documentation:
+  Enabled: false
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+Style/NumericLiterals:
+  Enabled: false
+
+Layout/SpaceAroundEqualsInParameterDefault:
+  EnforcedStyle: no_space
+
+# Style/StringLiterals:
+#   EnforcedStyle: double_quotes
+
+Naming/VariableNumber:
+  EnforcedStyle: snake_case
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented_relative_to_receiver
+
+Style/WordArray:
+  Enabled: false
+
+Layout/EmptyLinesAroundAccessModifier:
+  Enabled: false
+
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
+
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - 'lib/tasks/*'
+    - 'config/initializers/*'
+
+Style/Lambda:
+  Enabled: false
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Rails/EnumHash:
+  Enabled: false
+
+Style/FormatStringToken:
+  Enabled: false
+
+Rails/CreateTableWithTimestamps:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: false
+
+Rails/HelperInstanceVariable:
+  Exclude:
+    - 'app/helpers/application_helper.rb'
+
+Rails/LexicallyScopedActionFilter:
+  Enabled: false
+
+Rails/BulkChangeTable:
+  Enabled: false
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false

@@ -10,7 +10,7 @@ ActiveAdmin.register User do
     column :created_at
     column :birthday, &:birthday
     column :role do |user|
-      user.role unless user.role.blank?
+      user.role.presence
     end
     actions
   end
@@ -21,7 +21,7 @@ ActiveAdmin.register User do
       row :email
       row :birthday, &:birthday
       row :role do |user|
-        user.role unless user.role.blank?
+        user.role.presence
       end
     end
   end
