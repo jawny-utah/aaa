@@ -1,50 +1,50 @@
 <!DOCTYPE html>
 <html>
 <input type="checkbox" id="menu"/>
-  <label for="menu" class="menu">?
-  </label>
-  <div class="container-fluid">
-    <h1 class="jumbotron card text-center"><b>Адаптивная по ширине
-    <br>
-    <p><%= current_user.email if user_signed_in? %></p>
-    <a class="btn btn-light" rel="nofollow" data-method="get" href="/users/sign_in">Sign in</a>
-    <% if user_signed_in?%>
-      <a class="btn btn-light" rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a>
-      <% if current_user.confirmed? %>
-        <% else %>
-        <a class="btn btn-light" rel="nofollow" date-method="get" href="/users/confirmation">Confirm user</a>
+<label for="menu" class="menu">?
+</label>
+<div class="container-fluid">
+  <h1 class="jumbotron card text-center"><b>Адаптивная по ширине
+  <br>
+  <p><%= current_user.email if user_signed_in? %></p>
+  <a class="btn btn-light" rel="nofollow" data-method="get" href="/users/sign_in">Sign in</a>
+  <% if user_signed_in?%>
+    <a class="btn btn-light" rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a>
+    <% if current_user.confirmed? %>
+      <% else %>
+      <a class="btn btn-light" rel="nofollow" date-method="get" href="/users/confirmation">Confirm user</a>
       <% end %>
     <% end %>
-    </b></h1>
-  </div>
+  </b></h1>
+</div>
 <nav class="nav">
-    <ul style="list-style: none">
-      <li>
-        <a>Menu 1</a>
-        <ul style="list-style: none">
-            <li>
-              <a href="#">Menu 1 a</a>
-            </li>
-            <li>
-              <a href="#">Menu 1 b</a>
-            </li>
-            <li>
-              <a href="#">Menu 1 c</a>
-            </li>
-        </ul>
-      </li>
+  <ul style="list-style: none">
+    <li>
+      <a>Menu 1</a>
+      <ul style="list-style: none">
+          <li>
+            <a href="#">Menu 1 a</a>
+          </li>
+          <li>
+            <a href="#">Menu 1 b</a>
+          </li>
+          <li>
+            <a href="#">Menu 1 c</a>
+          </li>
+      </ul>
+    </li>
       <li>
         <a>Menu 2</a>
         <ul style="list-style: none">
-            <li>
-              <a href="#">Menu 2 a</a>
-            </li>
-            <li>
-              <a href="#">Menu 2 b</a>
-            </li>
-            <li>
-              <a href="#">Menu 2 c</a>
-            </li>
+          <li>
+            <a href="#">Menu 2 a</a>
+          </li>
+          <li>
+            <a href="#">Menu 2 b</a>
+          </li>
+          <li>
+            <a href="#">Menu 2 c</a>
+          </li>
         </ul>
       </li>
       <li>
