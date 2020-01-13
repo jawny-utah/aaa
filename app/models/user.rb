@@ -6,4 +6,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
   enum role: %i[admin guest]
+
+  def confirmation_required?
+    false
+  end
 end

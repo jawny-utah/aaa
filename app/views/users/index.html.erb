@@ -6,11 +6,17 @@
       <div class="container-fluid">
         <h1 class="jumbotron card text-center"><b>Адаптивная по ширине
         <br>
-        <a rel="nofollow" date-method="get" href="/users/sign_in">Sign in</a>
-        <a rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a>
+        <p><%= current_user.email if user_signed_in? %></p>
+        <a class="btn btn-light" rel="nofollow" data-method="get" href="/users/sign_in">Sign in</a>
+        <% if user_signed_in?%>
+          <a class="btn btn-light" rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a>
+          <% if current_user.confirmed? %>
+            <% else %>
+            <a class="btn btn-light" rel="nofollow" date-method="get" href="/users/confirmation">Confirm user</a>
+          <% end %>
+        <% end %>
         </b></h1>
       </div>
-    </div>
     <div class="album">
       <div class="container-fluid">
         <div class="row">
@@ -66,7 +72,7 @@
           </div>
           <div class="col-md-6" style="padding-top:10px">
               <div class="card mb-4 box-shadow ">
-                <div class="card-body">
+                <div class="card-body" style="text-align:left">
                     <div class="media-body border-bottom">
                       <h4 class="card-text"><b>How to use</b> </h4>
                       <p>Ever wondered what the difference between Adaptive, Responsive,
@@ -94,24 +100,25 @@
                   </div>
                   <div class="media3">
                     <div class="media-body pt-3">
-                        <div class="block-text">
-                              <% @users.each do |user| %>
-                                <p>
-                                  <h4 class="d-block pb-0 mb-0"> Email: <b><%= user.email %></b></h4>
-                                  <p> User role: <b><%= user.role %></b></p>
-                                  <p> Date of birth: <%= user.birthday %></p>
-                                  <% if current_user&.admin?%>
-                                    <%= link_to "Edit user", edit_admin_user_path(user)%>
-                                  <hr>
-                                  </p>
+                        <div class="block-text" style="text-align:left">
+                          <% @users.each do |user| %>
+                            <p>
+                              <h4 class="d-block pb-0 mb-0"> Email: <b><%= user.email %></b></h4>
+                              <p> User role: <b><%= user.role %></b></p>
+                              <p> Date of birth: <%= user.birthday %></p>
+                              <% if current_user&.admin?%>
+                                <%= link_to "Edit user", edit_admin_user_path(user)%>
+                                <hr>
                               <% end %>
-                        <% end %>
-                      </div>
+                              </p>
+                          <% end %>
+                        </div>
                     </div>
                   </div>
                 </div>
               </div>
           </div>
+          <% if user_signed_in? && current_user.confirmed? %>
             <div class="col-md-3" style="padding-right: 10px; padding-top: 10px">
               <div class="card mb-2 box-shadow">
                 <div class="card-body">
@@ -168,6 +175,7 @@
               </div>
             </div>
           </div>
+        <% end %>
         </div>
           <div class="footer">
             <div class="container">
