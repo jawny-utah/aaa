@@ -16,7 +16,6 @@ gem 'puma', '~> 4.1'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 gem 'rubocop-performance'
 gem 'rubocop-rails'
-gem 'pg'
 # Use Puma as the app server
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
@@ -58,6 +57,10 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+end
+
+group :production do
+  gem 'pg'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

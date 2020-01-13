@@ -49,15 +49,15 @@ $base-duration: 500ms;
 }
 
 #menu {
-	display: none;
+  display: none;
 
-	&:checked ~ .menu {
+  &:checked ~ .menu {
     transform: translateX(200px);
 		transition: transform $base-duration ease;
-		}
+	}
 
 	&:checked ~ .nav {
-		left: 0px;
+		left: 0;
 		transition: left $base-duration ease;
 	}
 
@@ -86,44 +86,42 @@ $base-duration: 500ms;
   	margin: 10px 0;
   	padding: 0;
     width: 160px;
-      li{
-        position: relative;
-  			display: block;
-      }
-      a{
-          position: relative;
-  				display: block;
-  				margin: 0;
-  				padding: 10px 15px;
-  				font-weight: bold;
-
-  				&:before {
-  					position: absolute;
-  					content: '';
-  					top: 0;
-  					left: 0;
-  					width: 0;
-  					height: 100%;
-  					transition: width $base-duration ease;
-  					z-index: -1;
-  				}
-
-  					&:before {
-  						width: 100%;
-  						height: 100%;
-  						background-color: #1fd09e;
-  						transition: width $base-duration ease;
-  					}
-  			}
+    li{
+      position: relative;
+  	  display: block;
     }
+    a{
+      position: relative;
+  		display: block;
+  		margin: 0;
+  		padding: 10px 15px;
+  		font-weight: bold;
+    	&:before {
+  			position: absolute;
+  			content: '';
+  			top: 0;
+  			left: 0;
+  			width: 0;
+  			height: 100%;
+  			transition: width $base-duration ease;
+  			z-index: -1;
+  		}
+  		&:before {
+    		width: 100%;
+    		height: 100%;
+    		background-color: #1fd09e;
+    		transition: width $base-duration ease;
+    	}
+    }
+  }
 }
 
 .jumbotron {
-    background-color: #17b88b;
-    border-color: #17b88b;
-    padding: 20px;
-    margin-bottom: 10px;
-    border-radius: 0px;
+  background-color: #17b88b;
+  border-color: #17b88b;
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 0px;
 }
 
 .footer{
@@ -140,15 +138,15 @@ $base-duration: 500ms;
 }
 
 .footer, .fixed-header{
-    background-color: #17b88b;
-    border-color: #17b88b;
-    position: fixed;
-    width: 100%;
-    text-align: center;
+  background-color: #17b88b;
+  border-color: #17b88b;
+  position: fixed;
+  width: 100%;
+  text-align: center;
 }
 
 main {
-	position: relative;
+  position: relative;
 	display: block;
 	width: 100%;
 	padding: 0;
@@ -172,8 +170,8 @@ main {
 }
 
 ol, ul, dl {
-    margin-top: 0;
-    margin-bottom: 0rem;
+  margin-top: 0;
+  margin-bottom: 0rem;
 }
 
 .container-fluid{
