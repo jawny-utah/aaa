@@ -1,77 +1,74 @@
 <!DOCTYPE html>
 <html>
-<body>
-  <main role="main">
-    <section class="text-center">
-      <div class="container-fluid">
-        <h1 class="jumbotron card text-center"><b>Адаптивная по ширине
-        <br>
-        <p><%= current_user.email if user_signed_in? %></p>
-        <a class="btn btn-light" rel="nofollow" data-method="get" href="/users/sign_in">Sign in</a>
-        <% if user_signed_in?%>
-          <a class="btn btn-light" rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a>
-          <% if current_user.confirmed? %>
-            <% else %>
-            <a class="btn btn-light" rel="nofollow" date-method="get" href="/users/confirmation">Confirm user</a>
-          <% end %>
-        <% end %>
-        </b></h1>
-      </div>
+<input type="checkbox" id="menu"/>
+  <label for="menu" class="menu">?
+  </label>
+  <div class="container-fluid">
+    <h1 class="jumbotron card text-center"><b>Адаптивная по ширине
+    <br>
+    <p><%= current_user.email if user_signed_in? %></p>
+    <a class="btn btn-light" rel="nofollow" data-method="get" href="/users/sign_in">Sign in</a>
+    <% if user_signed_in?%>
+      <a class="btn btn-light" rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a>
+      <% if current_user.confirmed? %>
+        <% else %>
+        <a class="btn btn-light" rel="nofollow" date-method="get" href="/users/confirmation">Confirm user</a>
+      <% end %>
+    <% end %>
+    </b></h1>
+  </div>
+<nav class="nav">
+    <ul style="list-style: none">
+      <li>
+        <a>Menu 1</a>
+        <ul style="list-style: none">
+            <li>
+              <a href="#">Menu 1 a</a>
+            </li>
+            <li>
+              <a href="#">Menu 1 b</a>
+            </li>
+            <li>
+              <a href="#">Menu 1 c</a>
+            </li>
+        </ul>
+      </li>
+      <li>
+        <a>Menu 2</a>
+        <ul style="list-style: none">
+            <li>
+              <a href="#">Menu 2 a</a>
+            </li>
+            <li>
+              <a href="#">Menu 2 b</a>
+            </li>
+            <li>
+              <a href="#">Menu 2 c</a>
+            </li>
+        </ul>
+      </li>
+      <li>
+        <a>Menu 3</a>
+        <ul style="list-style: none">
+            <li>
+              <a href="#">Menu 3 a</a>
+            </li>
+            <li>
+              <a href="#">Menu 3 b</a>
+            </li>
+            <li>
+              <a href="#">Menu 3 c</a>
+            </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <main>
     <div class="album">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-3" style="padding-top:10px">
-            <div class="card text-left box-shadow">
-              <div class="card-body">
-                <ul style="list-style: none">
-                  <li>
-                    <a href="#">Menu 1</a>
-                    <ul style="list-style: none">
-                        <li>
-                          <a href="#">Menu 1 a</a>
-                        </li>
-                        <li>
-                          <a href="#">Menu 1 b</a>
-                        </li>
-                        <li>
-                          <a href="#">Menu 1 c</a>
-                        </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="#">Menu 2</a>
-                    <ul style="list-style: none">
-                        <li>
-                          <a href="#">Menu 2 a</a>
-                        </li>
-                        <li>
-                          <a href="#">Menu 2 b</a>
-                        </li>
-                        <li>
-                          <a href="#">Menu 2 c</a>
-                        </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="#">Menu 3</a>
-                    <ul style="list-style: none">
-                        <li>
-                          <a href="#">Menu 3 a</a>
-                        </li>
-                        <li>
-                          <a href="#">Menu 3 b</a>
-                        </li>
-                        <li>
-                          <a href="#">Menu 3 c</a>
-                        </li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6" style="padding-top:10px">
-              <div class="card mb-4 box-shadow ">
+          <div class="col-md-9" style="padding-top:10px">
+              <div class="card mb-4 box-shadow" style="margin-left:30px">
                 <div class="card-body" style="text-align:left">
                     <div class="media-body border-bottom">
                       <h4 class="card-text"><b>How to use</b> </h4>
@@ -177,11 +174,11 @@
           </div>
         <% end %>
         </div>
-          <div class="footer">
-            <div class="container">
-              <p><b>Active bridge</b></p>
-          </div>
-        </div>
       </div>
-</body>
+  </main>
+  <nav class="bottom">
+    <div class="footer">
+        <p><b>Active bridge</b></p>
+      </div>
+    </nav>
 </html>
