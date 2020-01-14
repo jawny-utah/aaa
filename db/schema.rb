@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2020_01_09_142739) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "role", default: 1
-    t.integer "birthday"
+    t.date "birthday"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
