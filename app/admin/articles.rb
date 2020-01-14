@@ -1,2 +1,4 @@
-ActiveAdmin.register_page 'Articles' do
+# frozen_string_literal: true
+
+ActiveAdmin.register Article do
 end

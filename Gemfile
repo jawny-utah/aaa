@@ -11,12 +11,12 @@ gem 'bootstrap', '~> 4.4.1'
 gem 'devise'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails'
+gem 'pg'
 gem 'puma', '~> 4.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 gem 'rubocop-performance'
 gem 'rubocop-rails'
-gem 'pg'
 # Use Puma as the app server
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
@@ -57,8 +57,8 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
-  gem 'webdrivers'
   gem 'shoulda-matchers'
+  gem 'webdrivers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
