@@ -1,18 +1,18 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
+* This is a manifest file that'll be compiled into application.css, which will include all the files
+* listed below.
+*
+* Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+* vendor/assets/stylesheets directory can be referenced here using a relative path.
+*
+* You're free to add application-wide styles to this file and they'll appear at the bottom of the
+* compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+* files in this directory. Styles in this file should be added after the last require_* statement.
+* It is generally better to create a new file per style scope.
+*
+*= require_tree .
+*= require_self
+*/
 @import "bootstrap";
 
 $base-duration: 500ms;
@@ -22,20 +22,20 @@ $base-duration: 500ms;
 	outline: none;
 }
 
-.a.button, a:link.button, a:visited.button, input[type=submit], input[type=button], button{
-  background-image: none;
+.a.button, a:link.button, a:visited.button, input[type=submit], input[type=button], button {
+	background-image: none;
 }
 
-.body{
-  padding-top:60px;
-  padding-bottom:20px;
-  transition: margin-left .5s;
-  padding: 20px;
+.body {
+	padding-top:60px;
+	padding-bottom:20px;
+	transition: margin-left .5s;
+	padding: 20px;
 }
 
-.menu{
-  position: fixed;
-  top: 320px;
+.menu {
+	position: fixed;
+	top: 320px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -43,16 +43,16 @@ $base-duration: 500ms;
 	width: 45px;
 	height: 50px;
 	background-color: #128665;
-  transition: transform $base-duration ease;
+	transition: transform $base-duration ease;
 	cursor: pointer;
 	z-index: 3;
 }
 
 #menu {
-  display: none;
+	display: none;
 
-  &:checked ~ .menu {
-    transform: translateX(200px);
+	&:checked ~ .menu {
+		transform: translateX(200px);
 		transition: transform $base-duration ease;
 	}
 
@@ -67,86 +67,86 @@ $base-duration: 500ms;
 	}
 }
 
-.nav{
-  position: fixed;
+.nav {
+	position: fixed;
 	top: 0;
 	left: -210px;
 	width: 200px;
 	height: 100vh;
 	margin: 0;
 	padding: 0;
-  background-color: #0d5843;
+	background-color: #0d5843;
 	transition: left $base-duration ease;
 	z-index: 10;
 
-  ul{
-    padding-inline-start: 20px;
-    position: relative;
-  	list-style-type: none;
-  	margin: 10px 0;
-  	padding: 0;
-    width: 160px;
-    li{
-      position: relative;
-  	  display: block;
-    }
-    a{
-      position: relative;
-  		display: block;
-  		margin: 0;
-  		padding: 10px 15px;
-  		font-weight: bold;
-    	&:before {
-  			position: absolute;
-  			content: '';
-  			top: 0;
-  			left: 0;
-  			width: 0;
-  			height: 100%;
-  			transition: width $base-duration ease;
-  			z-index: -1;
-  		}
-  		&:before {
-    		width: 100%;
-    		height: 100%;
-    		background-color: #1fd09e;
-    		transition: width $base-duration ease;
-    	}
-    }
-  }
+	ul {
+		padding-inline-start: 20px;
+		position: relative;
+		list-style-type: none;
+		margin: 10px 0;
+		padding: 0;
+		width: 160px;
+		li {
+			position: relative;
+			display: block;
+		}
+		a {
+			position: relative;
+			display: block;
+			margin: 0;
+			padding: 10px 15px;
+			font-weight: bold;
+			&:before {
+				position: absolute;
+				content: '';
+				top: 0;
+				left: 0;
+				width: 0;
+				height: 100%;
+				transition: width $base-duration ease;
+				z-index: -1;
+			}
+			&:before {
+				width: 100%;
+				height: 100%;
+				background-color: #1fd09e;
+				transition: width $base-duration ease;
+			}
+		}
+	}
 }
 
 .jumbotron {
-  background-color: #17b88b;
-  border-color: #17b88b;
-  padding: 20px;
-  margin-bottom: 10px;
-  border-radius: 0;
+	background-color: #17b88b;
+	border-color: #17b88b;
+	padding: 20px;
+	margin-bottom: 10px;
+	border-radius: 0;
 }
 
-.footer{
-  bottom: 0;
-  height: 40px;
-  margin-left: 0;
-  padding-left: 0;
-  z-index: 0;
+.footer {
+	bottom: 0;
+	height: 40px;
+	margin-left: 0;
+	padding-left: 0;
+	z-index: 0;
 }
 
-.fixed-header{
-  top: 0;
-  z-index: 4;
+.fixed-header {
+	top: 0;
+	z-index: 4;
 }
 
-.footer, .fixed-header{
-  background-color: #17b88b;
-  border-color: #17b88b;
-  position: fixed;
-  width: 100%;
-  text-align: center;
+.footer, .fixed-header {
+	background-color: #17b88b;
+	border-color: #17b88b;
+	position: fixed;
+	width: 100%;
+	text-align: center;
 }
 
 main {
-  position: relative;
+	position: relative;
 	display: block;
 	width: 100%;
 	padding: 0;
@@ -154,34 +154,37 @@ main {
 	transition: transform $base-duration ease;
 	z-index: 0;
 }
-.img-portret{
-  zoom: 1;
-  clear: left;
-  float: left;
-  width: 50%;
-  margin-right: 10px;
-  margin-bottom: 5px;
+
+.img-portret {
+	zoom: 1;
+	clear: left;
+	float: left;
+	width: 50%;
+	margin-right: 10px;
+	margin-bottom: 5px;
 }
-.img-responsive{
-  clear: left;
-  float: left;
-  width: 50%;
-  margin-right: 10px;
+
+.img-responsive {
+	clear: left;
+	float: left;
+	width: 50%;
+	margin-right: 10px;
 }
 
 ol, ul, dl {
-  margin-top: 0;
-  margin-bottom: 0rem;
+	margin-top: 0;
+	margin-bottom: 0rem;
 }
 
-.container-fluid{
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  padding-bottom: 0px;
+.container-fluid {
+	margin-right: 0px;
+	margin-left: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
 }
-.row{
-  margin-left: 0px;
-  margin-right: 0px;
+
+.row {
+	margin-left: 0px;
+	margin-right: 0px;
 }
