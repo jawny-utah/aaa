@@ -9,6 +9,7 @@ gem 'activeadmin'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap', '~> 4.4.1'
 gem 'devise'
+gem 'friendly_id'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails'
 gem 'pg'
