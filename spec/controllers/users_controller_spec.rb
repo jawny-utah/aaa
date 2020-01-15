@@ -3,12 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-  let(:admin) { create(:user, email: 'admin2@example.com', role: :admin) }
-  let(:user) { create(:user, email: 'user3@example.com') }
+  let(:admin) { create(:user, role: :admin) }
+  let(:user) { create(:user) }
 
   before do
-    create(:user, email: 'user1@example.com')
-    create(:user, email: 'admin1@example.com', role: :admin)
+    create(:user)
+    create(:user, role: :admin)
   end
 
   describe 'GET #index' do
