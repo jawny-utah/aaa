@@ -8,6 +8,11 @@ class User < ApplicationRecord
   enum role: %i[admin guest]
   has_many :articles
   has_many :notes
+  before_validation :create_user_name, if: -> { new_record? }
+  validates :nickname, uniqueness: true
+
+  extend FriendlyId
+  friendly_id :nickname, use: %i[slugged finders]
 
   def confirmation_required?
     false
@@ -15,5 +20,9 @@ class User < ApplicationRecord
 
   def name
     email
+  end
+
+  def create_user_name
+    self.nickname = Faker::Name.first_name
   end
 end

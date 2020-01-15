@@ -3,8 +3,10 @@
     <h1>Show user articles</h1>
     <p>
       <h4 class="d-block pb-0 mb-0"> Email: <b><%= @user.email %></b></h4>
-      <p> User role: <b><%= @user.role %></b></p>
-      <p> Date of birth: <%= @user.birthday %></p>
+      <br>
+      <p> User nickname: <%= @user.nickname %> <br>
+      User role: <b><%= @user.role %></b><br>
+       Date of birth: <%= @user.birthday %></p>
       <% @user.articles.accepted.each do |article| %>
       <hr>
         <p> Article title: <%= article.title %><br>

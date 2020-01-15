@@ -6,7 +6,7 @@ AllCops:
   TargetRubyVersion: 2.6.3
   Exclude:
    - 'bin/*'
-   - 'db/schema.rb'
+   - 'db/**/*'
    - 'vendor/bundle/**/*'
    - 'node_modules/**/*'
    - 'spec/*'

@@ -8,6 +8,6 @@ RSpec.describe Article, type: :model do
   end
 
   describe 'validate article uniqueness' do
-    it { is_expected.to validate_uniqueness_of(:title).scoped_to(:user_id).case_insensitive }
+    it { is_expected.to validate_uniqueness_of(:title).scoped_to(:user_id) }
   end
 end
