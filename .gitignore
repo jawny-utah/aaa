@@ -30,6 +30,7 @@
 
 /public/packs
 /public/packs-test
+/coverage/
 /node_modules
 /yarn-error.log
 yarn-debug.log*
