@@ -12,4 +12,8 @@ class User < ApplicationRecord
   def confirmation_required?
     false
   end
+
+  def name
+    email
+  end
 end
