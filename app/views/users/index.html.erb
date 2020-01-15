@@ -103,10 +103,8 @@
                               <h4 class="d-block pb-0 mb-0"> Email: <b><%= user.email %></b></h4>
                               <p> User role: <b><%= user.role %></b></p>
                               <p> Date of birth: <%= user.birthday %></p>
-                              <% if current_user&.admin?%>
-                                <%= link_to "Edit user", edit_admin_user_path(user)%>
+                                <%= link_to "Show user", user_path(user) %>
                                 <hr>
-                              <% end %>
                               </p>
                           <% end %>
                         </div>

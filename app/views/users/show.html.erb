@@ -1,0 +1,17 @@
+<body>
+  <div class="container">
+    <h1>Show user articles</h1>
+    <p>
+      <h4 class="d-block pb-0 mb-0"> Email: <b><%= @user.email %></b></h4>
+      <p> User role: <b><%= @user.role %></b></p>
+      <p> Date of birth: <%= @user.birthday %></p>
+      <% @user.articles.accepted.each do |article| %>
+      <hr>
+        <p> Article title: <%= article.title %><br>
+         Article description: <%= article.description %><br>
+      <hr>
+      <% end %>
+      <a href="/">Back </a>
+    </p>
+  </div>
+</body>
