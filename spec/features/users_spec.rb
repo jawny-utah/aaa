@@ -3,10 +3,12 @@
 require 'rails_helper'
 
 RSpec.feature 'Users', type: :feature do
-  let!(:current_user) { create(:user, password: 'caplin') }
+  let(:current_user) { create(:user, password: 'caplin') }
 
   before :each do
-    create(:user)
+    create(:article, title: 'test title', user_id: current_user.id)
+    user = create(:user)
+    create(:article, user_id: user.id)
     create(:user)
   end
 
@@ -19,9 +21,10 @@ RSpec.feature 'Users', type: :feature do
       end
       click_button 'Log in'
       expect(page).to have_content('Signed in successfully.')
-      expect(page).to have_current_path(home_path)
-      first('.block-text > a').click
+      expect(page).to have_content('Show user', count: 2)
+      find(:xpath, "//a[@href='/users/#{current_user.slug}']").click
       expect(page).to have_content(current_user.email)
+      expect(page).to have_content('test title')
       expect(page).to have_current_path(user_path(current_user.slug))
     end
   end

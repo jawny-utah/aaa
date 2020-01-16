@@ -14,6 +14,8 @@ class User < ApplicationRecord
   extend FriendlyId
   friendly_id :nickname, use: %i[slugged finders]
 
+  scope :accepted_articles, -> { joins(:articles).where(articles: { accepted: true }).group(:id) }
+
   def confirmation_required?
     false
   end
