@@ -9,6 +9,7 @@ gem 'activeadmin'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap', '~> 4.4.1'
 gem 'devise'
+gem 'faker'
 gem 'friendly_id'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails'
@@ -37,7 +38,6 @@ gem 'webpacker', '~> 4.0'
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
-  gem 'faker', github: 'stympy/faker'
   gem 'pry'
   %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
     gem lib, git: "https://github.com/rspec/#{lib}.git", branch: 'master'
