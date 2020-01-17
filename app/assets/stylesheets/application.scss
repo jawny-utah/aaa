@@ -132,12 +132,14 @@ $base-duration: 500ms;
 	z-index: 0;
 }
 
-.fixed-header {
+#fixed-header {
 	top: 0;
-	z-index: 4;
+	margin-left: 0;
+	padding-left: 0;
+	z-index: 1;
 }
 
-.footer, .fixed-header {
+.footer, #fixed-header {
 	background-color: #17b88b;
 	border-color: #17b88b;
 	position: fixed;
@@ -182,6 +184,7 @@ ol, ul, dl {
 	padding-left: 0px;
 	padding-right: 0px;
 	padding-bottom: 0px;
+	padding-top: 110px
 }
 
 .row {
