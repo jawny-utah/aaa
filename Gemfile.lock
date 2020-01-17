@@ -45,6 +45,13 @@ GIT
   specs:
     rspec-support (3.10.0.pre)
 
+GIT
+  remote: https://github.com/stympy/faker.git
+  revision: b9e1e29df9b489a59743df892f03775142de37e7
+  specs:
+    faker (2.10.1)
+      i18n (>= 1.6, < 2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -158,8 +165,6 @@ GEM
     factory_bot_rails (5.1.1)
       factory_bot (~> 5.1.0)
       railties (>= 4.2.0)
-    faker (2.10.1)
-      i18n (>= 1.6, < 2)
     ffi (1.12.1)
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
@@ -335,7 +340,7 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (1.2.6)
       thread_safe (~> 0.1)
-    unicode-display_width (1.6.0)
+    unicode-display_width (1.6.1)
     warden (1.2.8)
       rack (>= 2.0.6)
     web-console (4.0.1)
@@ -369,7 +374,7 @@ DEPENDENCIES
   capybara
   devise
   factory_bot_rails
-  faker
+  faker!
   friendly_id
   jbuilder (~> 2.7)
   jquery-rails
