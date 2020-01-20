@@ -7,4 +7,5 @@ class Article < ApplicationRecord
   validates :title, uniqueness: { scope: :user_id }
 
   scope :accepted, -> { where(accepted: true) }
+  self.per_page = 5
 end
