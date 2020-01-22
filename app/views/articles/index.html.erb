@@ -2,10 +2,15 @@
   <div class="container">
     <div class="page-header">
       <h1> All accepted articles</h1>
+      <%= form_tag articles_path, :method => 'get' do %>
+        <%= text_field_tag :search, params[:search] %>
+        <%= submit_tag "Search" %>
+      <% end %>
       <hr>
       <%= render partial: 'article', collection: @articles, as: :article %>
       <%= will_paginate(@articles) %>
-      <%= link_to "Back", :back %>
+      <%= link_to "Main page", "/" %>
+      <%= link_to "Back", articles_path %>
     </div>
   </div>
 </body>
