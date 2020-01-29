@@ -6,6 +6,20 @@
         <%= text_field_tag :search, params[:search] %>
         <%= submit_tag "Search" %>
       <% end %>
+      <span class="pull-right">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort by <%= human_order_articles[params[:sort_by]] %>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><%= link_to "Title", articles_path(sort_by: "sort_by_title") %></li>
+            <li><%= link_to "Description", articles_path(sort_by: "sort_by_description_length") %></li>
+            <li><%= link_to "Email", articles_path(sort_by: "sort_by_users_email") %></li>
+            <li><%= link_to "Discard sort", articles_path %></li>
+          </ul>
+        </div>
+      </span>
       <hr>
       <%= render partial: 'article', collection: @articles, as: :article %>
       <%= will_paginate(@articles) %>

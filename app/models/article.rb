@@ -11,5 +11,14 @@ class Article < ApplicationRecord
   }
 
   scope :accepted, -> { where(accepted: true) }
+  scope :sort_by_title, -> { order(title: :asc) }
+  scope :sort_by_description_length, -> { order('LENGTH(description) DESC') }
+  scope :sort_by_users_email, -> { joins(:user).order('users.email') }
+
+  scope :order_list, ->(order_name) {
+    method = order_name.presence_in(%w[sort_by_title sort_by_description_length sort_by_users_email])
+    method ? send(order_name.to_sym) : order(created_at: :desc)
+  }
+
   self.per_page = 5
 end
