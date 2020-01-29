@@ -33,6 +33,20 @@ $base-duration: 500ms;
 	padding: 20px;
 }
 
+.container-fluid {
+	margin-right: 0px;
+	margin-left: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-top: 110px
+}
+
+.custom-select{
+	width: auto;
+	margin-top: 10px;
+}
+
 .dropdown-menu{
 	padding-left: 10px;
 }
@@ -180,15 +194,6 @@ main {
 ol, ul, dl {
 	margin-top: 0;
 	margin-bottom: 0rem;
-}
-
-.container-fluid {
-	margin-right: 0px;
-	margin-left: 0px;
-	padding-left: 0px;
-	padding-right: 0px;
-	padding-bottom: 0px;
-	padding-top: 110px
 }
 
 .row {
