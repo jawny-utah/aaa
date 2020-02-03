@@ -9,17 +9,17 @@ class Article < ApplicationRecord
     return if query.blank?
     where('title ILIKE:query OR description ILIKE:query', query: "%#{query}%")
   }
-  after_create_commit {
-    ArticleBroadcastJob.perform_later(self)
-  }
+  after_create_commit do
+    ArticleBroadcastJob.perform_later(user)
+  end
 
-  after_update_commit {
-    ArticleBroadcastJob.perform_later(self)
-  }
+  after_update_commit do
+    ArticleBroadcastJob.perform_later(user)
+  end
 
-  after_destroy {
-    ArticleBroadcastJob.perform_later(self)
-  }
+  after_destroy do
+    ArticleBroadcastJob.perform_later(user)
+  end
 
   scope :accepted, -> { where(accepted: true) }
   scope :sort_by_title, -> { order(title: :asc) }

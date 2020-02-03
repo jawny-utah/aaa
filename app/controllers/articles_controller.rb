@@ -3,8 +3,8 @@
 class ArticlesController < ApplicationController
   def index
     @articles = Article.accepted
-                       .search_by_content(params[:search]).order_list(params[:sort_by])
-                       .paginate(page: params[:page]).includes([:user])
+                  .search_by_content(params[:search]).order_list(params[:sort_by])
+                  .paginate(page: params[:page]).includes([:user])
   end
 
   def show
@@ -12,13 +12,13 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    @article = Article.find(params[:id])
+    @article = current_user.articles.find(params[:id])
   end
 
   def update
-    @article = Article.find(params[:id])
+    @article = current_user.articles.find(params[:id])
 
-    if(@article.update(article_params))
+    if @article.update(article_params)
       redirect_to current_user
     else
       render 'edit'
@@ -45,7 +45,8 @@ class ArticlesController < ApplicationController
     end
   end
 
-  private def article_params
+  private
+  def article_params
     params.require(:article).permit(:title, :description)
   end
 end
