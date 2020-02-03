@@ -1,0 +1,23 @@
+<body>
+  <div class="container">
+    <div class="page-header">
+      <h1> Create new article</h1>
+      <%= form_for @article, url: articles_path do |f| %>
+      <p>
+        Title of article:<br>
+        <%= f.text_field :title %>
+      </p>
+      <p>
+        Article description:<br>
+        <%= f.text_field :description %>
+      </p>
+      <br>
+        <%= f.submit %>
+      <% end %>
+      <hr>
+      <p>
+        <%= link_to "Back", '/' %>
+      </p>
+    </div>
+  </div>
+</body>
