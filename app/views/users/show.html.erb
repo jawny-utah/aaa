@@ -1,29 +1,39 @@
 <body>
   <div class="container">
     <h1>Show user articles</h1>
-    <p>
       <h4 class="d-block pb-0 mb-0"> Email: <b><%= @user.email %></b></h4>
       <br>
       <p> User nickname: <%= @user.nickname %> <br>
       User role: <b><%= @user.role %></b><br>
       Date of birth: <%= @user.birthday %></p>
+      <div class="all-articles">
       <% if @user == current_user %>
         <% @user.articles.each do |article| %>
+        <div class="accepted-articles-current-user">
           <hr>
-          <p> Article title: <%= article.title %><br>
+          Article title: <%= article.title %><br>
           Article description: <%= article.description %><br>
           Status (accepted): <%= article.accepted %><br>
+          <%= link_to "Edit article", edit_article_path(article.id), :class => 'btn btn-warning' %>
+          <%= link_to "Delete article", article_path(article.id), method: :delete, data: { confirm: "Are you sure?" }, :class => 'btn btn-danger' %>
           <hr>
+        </div>
         <% end %>
       <% else %>
         <% @user.articles.accepted.each do |article| %>
+        <div class="accepted-articles">
           <hr>
-          <p> Article title: <%= article.title %><br>
+          Article title: <%= article.title %><br>
           Article description: <%= article.description %><br>
           <hr>
+        </div>
         <% end %>
       <% end %>
-      <%= link_to "Back", :back %>
-    </p>
+      </div>
+      <%= link_to "Back", '/' %>
   </div>
 </body>
+
+<script>
+  window.subArticles("<%= @user.slug %>")
+</script>

@@ -97,7 +97,10 @@
                 <div class="media-body pt-3">
                   <div class="block-text" style="text-align:left">
                     <h2><%= link_to "All users articles", articles_path %></h2>
+                    <hr>
                     <% if user_signed_in? %>
+                      <h2><%= link_to "Create new article", new_article_path %></h2>
+                      <hr>
                       <h4 class="d-block pb-0 mb-0"> Email: <b><%= current_user.email %></b></h4>
                       <p> User role: <b><%= current_user.role %></b></p>
                       <p> Date of birth: <%= current_user.birthday %></p>
