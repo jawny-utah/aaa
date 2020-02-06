@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import requestmanager from '../../lib/requestmanager';
 
 export default class HelloWorld extends React.Component {
   static propTypes = {
@@ -21,6 +22,15 @@ export default class HelloWorld extends React.Component {
     this.setState({ name });
   };
 
+  submitForm = () => {
+    const params = { user: { nickname: this.state.name } };
+    const url = '/api/v1/users/' + this.props.id;
+    console.log(url)
+    requestmanager.request(url, params).then((resp) => {
+       console.log(resp)
+     }).catch(() => {});
+  };
+
   render() {
     return (
       <div>
@@ -38,6 +48,12 @@ export default class HelloWorld extends React.Component {
             value={this.state.name}
             onChange={(e) => this.updateName(e.target.value)}
           />
+          <input
+            id="submit"
+            type="button"
+            value="submit"
+            onClick={this.submitForm}
+            />
         </form>
       </div>
     );
