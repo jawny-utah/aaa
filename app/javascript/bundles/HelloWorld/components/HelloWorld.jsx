@@ -4,7 +4,7 @@ import requestmanager from '../../lib/requestmanager';
 
 export default class HelloWorld extends React.Component {
   static propTypes = {
-    name: PropTypes.string.isRequired, // this is passed from the Rails view
+    name: PropTypes.string.isRequired // this is passed from the Rails view
   };
 
   /**
@@ -15,21 +15,52 @@ export default class HelloWorld extends React.Component {
 
     // How to set initial state in ES6 class syntax
     // https://reactjs.org/docs/state-and-lifecycle.html#adding-local-state-to-a-class
-    this.state = { name: this.props.name };
+    this.state = {
+      name: this.props.name,
+      articles: []
+    };
   }
 
   updateName = (name) => {
     this.setState({ name });
   };
 
+  componentDidMount(){
+    this.getArticles();
+  }
+
   submitForm = () => {
     const params = { user: { nickname: this.state.name } };
     const url = '/api/v1/users/' + this.props.id;
     console.log(url)
-    requestmanager.request(url, params).then((resp) => {
+    requestmanager.request(url, "put", params).then((resp) => {
        console.log(resp)
      }).catch(() => {});
   };
+
+  getArticles = () => {
+    const url = '/api/v1/articles';
+    requestmanager.request(url).then((resp) => {
+      this.setState({ articles: resp });
+    }).catch(() => {});
+  }
+
+  makeArticle = (article, index) => {
+    return (
+      <div key={index}>
+        <ul>
+        <hr/>
+          <div>
+            <p>
+            Title: {article.title}
+            <br/>
+            Description: {article.description}
+            </p>
+          </div>
+        </ul>
+      </div>
+    );
+  }
 
   render() {
     return (
@@ -53,8 +84,11 @@ export default class HelloWorld extends React.Component {
             type="button"
             value="submit"
             onClick={this.submitForm}
-            />
+          />
         </form>
+        <div>
+          {this.state.articles.map(this.makeArticle)}
+        </div>
       </div>
     );
   }
