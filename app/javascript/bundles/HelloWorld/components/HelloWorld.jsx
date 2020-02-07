@@ -17,13 +17,19 @@ export default class HelloWorld extends React.Component {
     // https://reactjs.org/docs/state-and-lifecycle.html#adding-local-state-to-a-class
     this.state = {
       name: this.props.name,
-      articles: []
+      articles: [],
+      checked: false
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   updateName = (name) => {
     this.setState({ name });
   };
+
+  handleChange = () => {
+    this.setState({ checked: !this.state.checked })
+  }
 
   componentDidMount(){
     this.getArticles();
@@ -63,6 +69,8 @@ export default class HelloWorld extends React.Component {
   }
 
   render() {
+    const { checked, articles } = this.state;
+    const filteredArticles = checked ? articles.filter(a => a.user_id == this.props.id) : articles;
     return (
       <div>
         <h3>
@@ -87,7 +95,14 @@ export default class HelloWorld extends React.Component {
           />
         </form>
         <div>
-          {this.state.articles.map(this.makeArticle)}
+          <label>Only current user article</label>
+          <input
+            type="checkbox"
+            checked={ this.state.checked }
+            onChange={ this.handleChange } />
+        </div>
+        <div>
+          {filteredArticles.map(this.makeArticle)}
         </div>
       </div>
     );
