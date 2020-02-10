@@ -2,7 +2,10 @@
 
 class Api::V1::ArticlesController < ApplicationController
   def index
-    @articles = Article.all
-    render json: @articles, each_serializer: ArticleSerializer
+    render json: articles, each_serializer: ArticleSerializer
+  end
+
+  def articles
+    @articles ||= Article.order_list(params[:sort_by])
   end
 end

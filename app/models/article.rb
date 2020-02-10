@@ -2,6 +2,7 @@
 
 class Article < ApplicationRecord
   belongs_to :user, optional: true
+  delegate :email, to: :user, prefix: true
   validates :user_id, presence: true
   validates :title, presence: true
   validates :title, uniqueness: { scope: :user_id }
