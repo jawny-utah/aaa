@@ -18,20 +18,28 @@ export default class HelloWorld extends React.Component {
     this.state = {
       name: this.props.name,
       articles: [],
-      checked: false
+      checked: false,
+      sortingValue: "blank"
     };
-    this.handleChange = this.handleChange.bind(this);
-  }
+    this.handleChangeForCheckbox = this.handleChangeForCheckbox.bind(this);
+  };
 
   updateName = (name) => {
     this.setState({ name });
   };
 
-  handleChange = () => {
-    this.setState({ checked: !this.state.checked })
-  }
+  handleChangeForCheckbox = () => {
+    this.setState({ checked: !this.state.checked });
+  };
 
-  componentDidMount(){
+  handleChangeForSort = (event) => {
+    let sortingValue = event.target.value;
+    this.setState({ sortingValue }, () => {
+      this.getArticles();
+    });
+  };
+
+  componentDidMount() {
     this.getArticles();
   }
 
@@ -46,7 +54,7 @@ export default class HelloWorld extends React.Component {
 
   getArticles = () => {
     const url = '/api/v1/articles';
-    requestmanager.request(url).then((resp) => {
+    requestmanager.request(url + '?sort_by=' + this.state.sortingValue).then((resp) => {
       this.setState({ articles: resp });
     }).catch(() => {});
   }
@@ -61,6 +69,10 @@ export default class HelloWorld extends React.Component {
             Title: {article.title}
             <br/>
             Description: {article.description}
+            <br/>
+            Created at: {article.created_at}
+            <br/>
+            User email: {article.user_email}
             </p>
           </div>
         </ul>
@@ -99,8 +111,16 @@ export default class HelloWorld extends React.Component {
           <input
             type="checkbox"
             checked={ this.state.checked }
-            onChange={ this.handleChange } />
+            onChange={ this.handleChangeForCheckbox } />
         </div>
+          <select
+            value={this.state.sortingValue}
+            onChange={ this.handleChangeForSort }>
+              <option value="blank"> Sort by </option>
+              <option value="sort_by_users_email"> Sort by user email</option>
+              <option value="sort_by_title"> Sort by title</option>
+              <option value="sort_by_description_length"> Sort by description</option>
+          </select>
         <div>
           {filteredArticles.map(this.makeArticle)}
         </div>
