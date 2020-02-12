@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import requestmanager from '../../lib/requestmanager';
+import { Pagination, Container } from 'semantic-ui-react';
 
 export default class HelloWorld extends React.Component {
   static propTypes = {
@@ -19,7 +20,10 @@ export default class HelloWorld extends React.Component {
       name: this.props.name,
       articles: [],
       checked: false,
-      sortingValue: "blank"
+      sortingValue: "blank",
+      loading: true,
+      pageCount: 1,
+      page: 1,
     };
     this.handleChangeForCheckbox = this.handleChangeForCheckbox.bind(this);
   };
@@ -43,6 +47,16 @@ export default class HelloWorld extends React.Component {
     this.getArticles();
   }
 
+  handlePageForPagin = (e, { activePage }) => {
+    let gotopage = { activePage };
+    let pagenum = gotopage.activePage;
+    let pagestring = pagenum.toString();
+    const url = '/api/v1/articles';
+    requestmanager.request(url + '?page=' + pagestring).then((resp) => {
+      this.setState({ page: activePage, loading: false, articles: resp.articles })
+    }).catch(() => {});
+  }
+
   submitForm = () => {
     const params = { user: { nickname: this.state.name } };
     const url = '/api/v1/users/' + this.props.id;
@@ -55,7 +69,7 @@ export default class HelloWorld extends React.Component {
   getArticles = () => {
     const url = '/api/v1/articles';
     requestmanager.request(url + '?sort_by=' + this.state.sortingValue).then((resp) => {
-      this.setState({ articles: resp });
+      this.setState({ articles: resp.articles, pageCount: resp.page_count });
     }).catch(() => {});
   }
 
@@ -84,6 +98,7 @@ export default class HelloWorld extends React.Component {
     const { checked, articles } = this.state;
     const filteredArticles = checked ? articles.filter(a => a.user_id == this.props.id) : articles;
     return (
+      <Container>
       <div>
         <h3>
           Hello, {this.state.name}!
@@ -124,7 +139,14 @@ export default class HelloWorld extends React.Component {
         <div>
           {filteredArticles.map(this.makeArticle)}
         </div>
-      </div>
+        <Container>
+          <Pagination onPageChange={this.handlePageForPagin} size='large' siblingRange='6'
+            defaultActivePage={this.state.page}
+            totalPages={this.state.pageCount}
+            ellipsisItem={null}/>
+        </Container>
+        </div>
+      </Container>
     );
   }
 }

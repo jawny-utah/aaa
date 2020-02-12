@@ -14,4 +14,14 @@ class ApplicationController < ActionController::Base
   def authenticate_admin_user!
     redirect_to '/' if !current_user || !current_user.admin?
   end
+
+  private
+
+  def serialize(collection, serializer, adapter = :json)
+    ActiveModelSerializers::SerializableResource.new(
+      collection,
+      each_serializer: serializer,
+      adapter: adapter
+    ).as_json
+  end
 end
