@@ -1,17 +1,13 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import requestmanager from '../../lib/requestmanager';
-import { Pagination, Container } from 'semantic-ui-react';
+import PropTypes from "prop-types";
+import React from "react";
+import requestmanager from "../../lib/requestmanager";
+import { Pagination, Container } from "semantic-ui-react";
 
-export default class HelloWorld extends React.Component {
-  static propTypes = {
-    name: PropTypes.string.isRequired // this is passed from the Rails view
-  };
-
+class HelloWorld extends React.Component {
   /**
    * @param props - Comes from your rails view.
    */
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     // How to set initial state in ES6 class syntax
@@ -23,52 +19,52 @@ export default class HelloWorld extends React.Component {
       sortingValue: "blank",
       loading: true,
       pageCount: 1,
-      page: 1,
+      page: 1
     };
     this.handleChangeForCheckbox = this.handleChangeForCheckbox.bind(this);
-  };
+  }
 
-  updateName = (name) => {
-    this.setState({ name });
-  };
+  componentDidMount () {
+    this.getArticles();
+  }
 
   handleChangeForCheckbox = () => {
     this.setState({ checked: !this.state.checked });
   };
 
   handleChangeForSort = (event) => {
-    let sortingValue = event.target.value;
+    const sortingValue = event.target.value;
     this.setState({ sortingValue }, () => {
       this.getArticles();
     });
   };
 
-  componentDidMount() {
-    this.getArticles();
-  }
+  updateName = (name) => {
+    this.setState({ name });
+  };
 
   handlePageForPagin = (e, { activePage }) => {
-    let gotopage = { activePage };
-    let pagenum = gotopage.activePage;
-    let pagestring = pagenum.toString();
-    const url = '/api/v1/articles';
-    requestmanager.request(url + '?page=' + pagestring).then((resp) => {
-      this.setState({ page: activePage, loading: false, articles: resp.articles })
+    const gotopage = { activePage };
+    const pagenum = gotopage.activePage;
+    const pagestring = pagenum.toString();
+    const url = "/api/v1/articles";
+    requestmanager.request(url + "?page=" + pagestring).then((resp) => {
+      this.setState({ page: activePage, loading: false, articles: resp.articles });
     }).catch(() => {});
   }
 
   submitForm = () => {
     const params = { user: { nickname: this.state.name } };
-    const url = '/api/v1/users/' + this.props.id;
-    console.log(url)
+    const url = "/api/v1/users/" + this.props.id;
+    console.log(url);
     requestmanager.request(url, "put", params).then((resp) => {
-       console.log(resp)
-     }).catch(() => {});
+      console.log(resp);
+    }).catch(() => {});
   };
 
   getArticles = () => {
-    const url = '/api/v1/articles';
-    requestmanager.request(url + '?sort_by=' + this.state.sortingValue).then((resp) => {
+    const url = "/api/v1/articles";
+    requestmanager.request(url + "?sort_by=" + this.state.sortingValue).then((resp) => {
       this.setState({ articles: resp.articles, pageCount: resp.page_count });
     }).catch(() => {});
   }
@@ -77,16 +73,16 @@ export default class HelloWorld extends React.Component {
     return (
       <div key={index}>
         <ul>
-        <hr/>
+          <hr />
           <div>
             <p>
-            Title: {article.title}
-            <br/>
-            Description: {article.description}
-            <br/>
-            Created at: {article.created_at}
-            <br/>
-            User email: {article.user_email}
+              Title: {article.title}
+              <br />
+              Description: {article.description}
+              <br />
+              Created at: {article.created_at}
+              <br />
+              User email: {article.user_email}
             </p>
           </div>
         </ul>
@@ -94,59 +90,64 @@ export default class HelloWorld extends React.Component {
     );
   }
 
-  render() {
+  render () {
     const { checked, articles } = this.state;
-    const filteredArticles = checked ? articles.filter(a => a.user_id == this.props.id) : articles;
+    const filteredArticles = checked ? articles.filter(a => a.user_id === this.props.id) : articles;
     return (
       <Container>
-      <div>
-        <h3>
-          Hello, {this.state.name}!
-        </h3>
-        <hr />
-        <form >
-          <label htmlFor="name">
-            Say hello to:
-          </label>
-          <input
-            id="name"
-            type="text"
-            value={this.state.name}
-            onChange={(e) => this.updateName(e.target.value)}
-          />
-          <input
-            id="submit"
-            type="button"
-            value="submit"
-            onClick={this.submitForm}
-          />
-        </form>
         <div>
-          <label>Only current user article</label>
-          <input
-            type="checkbox"
-            checked={ this.state.checked }
-            onChange={ this.handleChangeForCheckbox } />
-        </div>
+          <h3>
+            Hello, {this.state.name}!
+          </h3>
+          <hr />
+          <form >
+            <label htmlFor="name">
+              Say hello to:
+            </label>
+            <input
+                id="name"
+                onChange={(e) => this.updateName(e.target.value)}
+                type="text"
+                value={this.state.name} />
+            <input
+                handleonClick={this.submitForm}
+                id="submit"
+                type="button"
+                value="submit" />
+          </form>
+          <div>
+            <label>Only current user article</label>
+            <input
+                checked={this.state.checked}
+                onChange={this.handleChangeForCheckbox}
+                type="checkbox" />
+          </div>
           <select
-            value={this.state.sortingValue}
-            onChange={ this.handleChangeForSort }>
-              <option value="blank"> Sort by </option>
-              <option value="sort_by_users_email"> Sort by user email</option>
-              <option value="sort_by_title"> Sort by title</option>
-              <option value="sort_by_description_length"> Sort by description</option>
+              onChange={this.handleChangeForSort}
+              value={this.state.sortingValue}>
+            <option value="blank"> Sort by </option>
+            <option value="sort_by_users_email"> Sort by user email</option>
+            <option value="sort_by_title"> Sort by title</option>
+            <option value="sort_by_description_length"> Sort by description</option>
           </select>
-        <div>
-          {filteredArticles.map(this.makeArticle)}
-        </div>
-        <Container>
-          <Pagination onPageChange={this.handlePageForPagin} size='large' siblingRange='6'
-            defaultActivePage={this.state.page}
-            totalPages={this.state.pageCount}
-            ellipsisItem={null}/>
-        </Container>
+          <div>
+            {filteredArticles.map(this.makeArticle)}
+          </div>
+          <Container>
+            <Pagination
+                defaultActivePage={this.state.page} ellipsisItem={null} onPageChange={this.handlePageForPagin}
+                siblingRange='6'
+                size='large'
+                totalPages={this.state.pageCount} />
+          </Container>
         </div>
       </Container>
     );
   }
 }
+
+HelloWorld.propTypes = {
+  name: PropTypes.string.isRequired
+};
+
+export default HelloWorld;
