@@ -19,13 +19,12 @@ export default class HelloWorld extends React.Component {
     this.state = {
       name: this.props.name,
       articles: [],
-      checked: false,
+      user_articles: false,
       sortingValue: "blank",
       loading: true,
       pageCount: 1,
       page: 1
     };
-    this.handleChangeForCheckbox = this.handleChangeForCheckbox.bind(this);
   };
 
   updateName = (name) => {
@@ -33,7 +32,9 @@ export default class HelloWorld extends React.Component {
   };
 
   handleChangeForCheckbox = () => {
-    this.setState({ checked: !this.state.checked });
+    this.setState({ user_articles: !this.state.user_articles, page: 1 }, () => {
+      this.getArticles();
+    });
   };
 
   handleChangeForSort = (event) => {
@@ -48,14 +49,7 @@ export default class HelloWorld extends React.Component {
   }
 
   handlePageForPagin = (e, { activePage }) => {
-    let gotopage = { activePage };
-    let pagenum = gotopage.activePage;
-    let pagestring = pagenum.toString();
-    this.setState({loading: true});
-    const url = '/api/v1/articles';
-    requestmanager.request(url + '?page=' + pagestring).then((resp) => {
-      this.setState({ page: activePage, loading: false, articles: resp.articles })
-    }).catch(() => {});
+    this.setState({ page: activePage}, () => this.getArticles());
   }
 
   submitForm = () => {
@@ -69,7 +63,15 @@ export default class HelloWorld extends React.Component {
   getArticles = () => {
     const url = '/api/v1/articles';
     if (!this.state.loading) this.setState({loading: true});
-    requestmanager.request(url + '?sort_by=' + this.state.sortingValue).then((resp) => {
+    const additionalParams = {
+      sort_by: this.state.sortingValue,
+      page: this.state.page,
+      user_articles: this.state.user_articles
+    };
+    const params = Object.keys(additionalParams).map(function(key, index) {
+      return key + "=" + additionalParams[key];
+    }).join("&");
+    requestmanager.request(url + '?' + params).then((resp) => {
       this.setState({ articles: resp.articles, pageCount: resp.page_count, loading: false });
     }).catch(() => {});
   }
@@ -97,8 +99,7 @@ export default class HelloWorld extends React.Component {
 
   render() {
     if (this.state.loading) return <Loader active size="large">Loading</Loader>;
-    const { checked, articles } = this.state;
-    const filteredArticles = checked ? articles.filter(a => a.user_id == this.props.id) : articles;
+    const { articles } = this.state;
     return (
       <Container>
         <div>
@@ -127,7 +128,7 @@ export default class HelloWorld extends React.Component {
             <label>Only current user article</label>
             <input
               type="checkbox"
-              checked={ this.state.checked }
+              checked={ this.state.user_articles }
               onChange={ this.handleChangeForCheckbox } />
           </div>
             <select
@@ -139,7 +140,7 @@ export default class HelloWorld extends React.Component {
               <option value="sort_by_description_length"> Sort by description</option>
             </select>
           <div>
-            {filteredArticles.map(this.makeArticle)}
+            {articles.map(this.makeArticle)}
           </div>
           <Container>
             <Pagination onPageChange={this.handlePageForPagin} size='large' siblingRange='6'
