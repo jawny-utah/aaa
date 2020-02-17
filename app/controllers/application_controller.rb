@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def serialize(collection, serializer, adapter = :json)
+  def serialize(collection, serializer, adapter=:json)
     ActiveModelSerializers::SerializableResource.new(
       collection,
       each_serializer: serializer,
