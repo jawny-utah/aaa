@@ -28,8 +28,8 @@ class Article < ApplicationRecord
   scope :sort_by_users_email, -> { joins(:user).order('users.email') }
 
   scope :order_list, ->(order_name) {
-    method = order_name.presence_in(%w[sort_by_title sort_by_description_length sort_by_users_email])
-    method ? send(order_name.to_sym) : order(created_at: :desc)
+    method = order_name.presence_in(%w[title description_length users_email])
+    method ? send(('sort_by_' + order_name).to_sym) : order(created_at: :desc)
   }
 
   self.per_page = 5
