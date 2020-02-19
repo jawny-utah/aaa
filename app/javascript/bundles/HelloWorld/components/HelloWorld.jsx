@@ -19,11 +19,11 @@ export default class HelloWorld extends React.Component {
     this.state = {
       name: this.props.name,
       articles: [],
-      user_articles: false,
-      sortingValue: "blank",
+      user_articles: this.props.user_articles == "true",
+      sortingValue: this.props.sort_by || "blank",
       loading: true,
       pageCount: 1,
-      page: 1
+      page: parseInt(this.props.page) || 1
     };
   };
 
@@ -45,7 +45,13 @@ export default class HelloWorld extends React.Component {
   };
 
   componentDidMount() {
-    this.getArticles();
+    this.getArticles(false);
+    window.onpopstate = () => {
+      const state = window.history.state || {};
+      this.setState( state , () => {
+        this.getArticles(false);
+      });
+    };
   }
 
   handlePageForPagin = (e, { activePage }) => {
@@ -56,11 +62,10 @@ export default class HelloWorld extends React.Component {
     const params = { user: { nickname: this.state.name } };
     const url = '/api/v1/users/' + this.props.id;
     requestmanager.request(url, "put", params).then((resp) => {
-       console.log(resp)
      }).catch(() => {});
   };
 
-  getArticles = () => {
+  getArticles = (pushState=true) => {
     const url = '/api/v1/articles';
     if (!this.state.loading) this.setState({loading: true});
     const additionalParams = {
@@ -74,24 +79,39 @@ export default class HelloWorld extends React.Component {
     requestmanager.request(url + '?' + params).then((resp) => {
       this.setState({ articles: resp.articles, pageCount: resp.page_count, loading: false });
     }).catch(() => {});
+    if (pushState) this.pushURLByParam();
+  }
+
+  pushURLByParam = () => {
+    const additionalParams = {
+      sortingValue: this.state.sortingValue,
+      page: this.state.page,
+      user_articles: this.state.user_articles
+    };
+    const url = '/hello_world'
+    const params = Object.keys(additionalParams).map(function(key, index) {
+      return key + "=" + additionalParams[key];
+    }).join("&");
+    history.pushState(additionalParams, null, url + '?' + params);
   }
 
   makeArticle = (article, index) => {
     return (
-      <div key={index}>
+      <div className="articleClass" key={index}>
         <ul>
         <hr/>
-          <div>
-            <p>
+          <p style={{margin: 0}} className="articleTitle">
             Title: {article.title}
-            <br/>
+          </p>
+          <p style={{margin: 0}} className="articleDescription">
             Description: {article.description}
-            <br/>
+          </p>
+          <p style={{margin: 0}} className="articleCreatedTime">
             Created at: {article.created_at}
-            <br/>
+          </p>
+          <p style={{margin: 0}} className="articleUserEmail">
             User email: {article.user_email}
-            </p>
-          </div>
+          </p>
         </ul>
       </div>
     );
@@ -131,23 +151,23 @@ export default class HelloWorld extends React.Component {
               checked={ this.state.user_articles }
               onChange={ this.handleChangeForCheckbox } />
           </div>
-            <select
+            <select className="selectForSort"
               value={this.state.sortingValue}
               onChange={ this.handleChangeForSort }>
-              <option value="blank"> Sort by </option>
-              <option value="sort_by_users_email"> Sort by user email</option>
-              <option value="sort_by_title"> Sort by title</option>
-              <option value="sort_by_description_length"> Sort by description</option>
+              <option value="blank" className="sortBlank"> Sort by </option>
+              <option value="users_email"> Sort by user email</option>
+              <option value="title"> Sort by title</option>
+              <option value="description_length"> Sort by description</option>
             </select>
-          <div>
+          <div className="allArticles">
             {articles.map(this.makeArticle)}
           </div>
-          <Container>
-            <Pagination onPageChange={this.handlePageForPagin} size='large' siblingRange='6'
+          <Pagination
+              onPageChange={this.handlePageForPagin}
+              size='large' siblingRange='6'
               defaultActivePage={this.state.page}
               totalPages={this.state.pageCount}
               ellipsisItem={null}/>
-          </Container>
         </div>
       </Container>
     );
