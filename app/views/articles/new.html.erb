@@ -11,6 +11,10 @@
         Article description:<br>
         <%= f.text_field :description %>
       </p>
+      <p>
+        Select user for grant access:<br>
+        <%= f.select(:user_ids, options_for_select(users_for_articles([current_user.id])), {:include_blank => ""}, { multiple: true}) %>
+      </p>
       <br>
         <%= f.submit %>
       <% end %>

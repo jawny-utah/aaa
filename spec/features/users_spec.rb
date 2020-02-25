@@ -12,9 +12,93 @@ RSpec.feature 'Users', type: :feature do
     create(:article, title: 'active-bridge3', user_id: current_user.id)
     create(:article, title: 'bridddge', user_id: current_user.id)
     create(:article, title: 'bridddge!!!', user_id: current_user.id)
-    user = create(:user)
+    user = create(:user, email: 'activebridge@active-bridge.com', nickname: 'pamela', password: 'sonars', id: 300)
     create(:article, user_id: user.id)
     create(:user)
+  end
+
+  context 'join table articles1' do
+    scenario 'check select' do
+      # loggin in
+      visit user_session_path
+      within('form') do
+        fill_in 'Email', with: current_user.email
+        fill_in 'Password', with: 'caplin'
+      end
+      click_button 'Log in'
+      click_on 'Create new article'
+      within('form') do
+        fill_in 'article_title', with: 'Active bridge'
+        fill_in 'article_description', with: 'Active bridge description'
+        find('#article_user_ids').find(:xpath, 'option[2]').select_option
+        find('#article_user_ids').find(:xpath, 'option[3]').select_option
+      end
+      click_on 'Create Article'
+      a = Article.where(user_id: current_user.id)
+      b = a.last.user_ids
+      # checking for user ids count
+      expect(b.count).to eq 2
+      click_on 'Edit article'
+      # updating user ids count to 3
+      within('form') do
+        fill_in 'article_title', with: 'Active bridge'
+        fill_in 'article_description', with: 'Active bridge description'
+        find('#article_user_ids').find(:xpath, 'option[4]').select_option
+      end
+      click_on 'Update Article'
+      b = a.last.user_ids
+      expect(b.count).to eq 3
+      visit home_path
+      click_on 'Logout'
+      # log in by new user to check user permission
+      visit user_session_path
+      within('form') do
+        fill_in 'Email', with: 'activebridge@active-bridge.com'
+        fill_in 'Password', with: 'sonars'
+      end
+      click_button 'Log in'
+      click_on 'Show user'
+      expect(page).to have_content('Active bridge description')
+      # check if user can edit article created by another user
+      click_on 'Edit article'
+      within('form') do
+        fill_in 'article_title', with: 'Active bridge233'
+        fill_in 'article_description', with: 'Active bridge2description'
+        find('#article_user_ids').find(:xpath, 'option[4]').select_option
+      end
+      click_on 'Update Article'
+      expect(page).to have_content('Active bridge2description')
+      visit home_path
+      click_on 'Logout'
+      visit user_session_path
+      within('form') do
+        fill_in 'Email', with: current_user.email
+        fill_in 'Password', with: 'caplin'
+      end
+      click_button 'Log in'
+      click_on 'Show user'
+      expect(page).to have_content('Active bridge2description')
+      expect(page).to have_content('Active bridge233')
+      click_on 'Edit article'
+      within('form') do
+        fill_in 'article_title', with: 'Active bridge'
+        fill_in 'article_description', with: 'Active bridge description'
+        find('#article_user_ids').find(:xpath, 'option[2]').unselect_option
+      end
+      click_on 'Update Article'
+      b = a.last.user_ids
+      expect(b.count).to eq 2
+      visit home_path
+      click_on 'Logout'
+      visit user_session_path
+      within('form') do
+        fill_in 'Email', with: 'activebridge@active-bridge.com'
+        fill_in 'Password', with: 'sonars'
+      end
+      click_button 'Log in'
+      click_on 'Show user'
+      expect(page).not_to have_content('Article title:')
+    end
   end
 
   context 'signs me in' do

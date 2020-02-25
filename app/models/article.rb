@@ -2,6 +2,7 @@
 
 class Article < ApplicationRecord
   belongs_to :user, optional: true
+  has_and_belongs_to_many :users
   delegate :email, to: :user, prefix: true
   validates :user_id, presence: true
   validates :title, presence: true
@@ -23,6 +24,11 @@ class Article < ApplicationRecord
   end
 
   scope :accepted, -> { where(accepted: true) }
+  scope :handle_user, ->(user_id) {
+                        left_joins(:users)
+                          .where('articles.user_id = :user_id OR articles_users.user_id = :user_id',
+                                 user_id: user_id).group(:id)
+                      }
   scope :sort_by_title, -> { order(title: :asc) }
   scope :sort_by_description_length, -> { order('LENGTH(description) DESC') }
   scope :sort_by_users_email, -> { joins(:user).order('users.email') }
