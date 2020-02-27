@@ -109,22 +109,24 @@
                     <h2><%= link_to "All users articles", articles_path %></h2>
                     <hr>
                     <% if user_signed_in? %>
-                      <h2><%= link_to "Create new article", new_article_path %></h2>
-                      <hr>
-                      <h4 class="d-block pb-0 mb-0"> Email: <b><%= current_user.email %></b></h4>
-                      <p> User role: <b><%= current_user.role %></b></p>
-                      <p> Date of birth: <%= current_user.birthday %></p>
-                      <%= link_to "Show user", user_path(current_user) %>
-                      <hr>
+                        <h2><%= link_to "Create new article", new_article_path %></h2>
+                        <div class="current-user-art">
+                          <hr>
+                          <h4 class="d-block pb-0 mb-0"> Email: <b><%= current_user.email %></b></h4>
+                          <p> User role: <b><%= current_user.role %></b></p>
+                          <p> Date of birth: <%= current_user.birthday %></p>
+                          <%= link_to "Show user", user_path(current_user) %>
+                          <hr>
+                        </div>
                       <% end %>
                     <% @users.each do |user| %>
-                      <p>
+                      <div class="other-users">
                         <h4 class="d-block pb-0 mb-0"> Email: <b><%= user.email %></b></h4>
                         <p> User role: <b><%= user.role %></b></p>
                         <p> Date of birth: <%= user.birthday %></p>
                         <%= link_to "Show user", user_path(user) %>
                         <hr>
-                      </p>
+                      </div>
                     <% end %>
                   </div>
                 </div>

@@ -7,4 +7,8 @@ module ApplicationHelper
      ['Sort by Description', 'sort_by_description_length'],
      ['Sort by User email', 'sort_by_users_email']]
   end
+
+  def users_for_articles(user_ids=[])
+    User.where.not(id: user_ids).pluck(:nickname, :id)
+  end
 end
