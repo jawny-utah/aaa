@@ -12,8 +12,14 @@
         <%= f.text_field :description %>
       </p>
       <p>
-        Select user for grant access:<br>
-        <%= f.select(:user_ids, options_for_select(users_for_articles([@article.user_id]), selected: @article.user_ids), {:include_blank => ""}, { multiple: true}) %>
+        <% if(@article.user_id == current_user.id) || current_user.admin? %>
+          Select user for grant access:<br>
+          <%= f.select(:user_ids,
+                        options_for_select(users_for_articles([@article.user_id]),
+                        selected: @article.user_ids),
+                        { include_blank: false },
+                        { multiple: true }) %>
+        <% end %>
       </p>
       <br>
         <%= f.submit %>

@@ -9,6 +9,9 @@ module ApplicationHelper
   end
 
   def users_for_articles(user_ids=[])
-    User.where.not(id: user_ids).pluck(:nickname, :id)
+    User.where.not(id: user_ids).pluck(:nickname, :id).map do |o|
+      o << { 'disabled-option' => true } if o.second == current_user.id
+      o
+    end
   end
 end
