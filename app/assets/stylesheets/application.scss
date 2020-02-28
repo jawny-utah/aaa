@@ -180,6 +180,11 @@ main {
 	z-index: 0;
 }
 
+option[disabled-option] {
+	pointer-events:none;
+	opacity: 0.5;
+}
+
 .img-portret {
 	zoom: 1;
 	clear: left;
