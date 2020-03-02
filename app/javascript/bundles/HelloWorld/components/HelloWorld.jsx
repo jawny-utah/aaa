@@ -1,7 +1,12 @@
-import PropTypes from "prop-types";
-import React from "react";
-import requestmanager from "../../lib/requestmanager";
-import { Pagination, Container } from "semantic-ui-react";
+import PropTypes from 'prop-types';
+import React from 'react';
+import requestmanager from '../../lib/requestmanager';
+import { Pagination, Container, Loader } from 'semantic-ui-react';
+
+export default class HelloWorld extends React.Component {
+  static propTypes = {
+    name: PropTypes.string.isRequired // this is passed from the Rails view
+  };
 
 class HelloWorld extends React.Component {
   /**
@@ -15,21 +20,22 @@ class HelloWorld extends React.Component {
     this.state = {
       name: this.props.name,
       articles: [],
-      checked: false,
-      sortingValue: "blank",
+      user_articles: this.props.user_articles == "true",
+      sortingValue: this.props.sort_by || "blank",
       loading: true,
       pageCount: 1,
-      page: 1
+      page: parseInt(this.props.page) || 1
     };
-    this.handleChangeForCheckbox = this.handleChangeForCheckbox.bind(this);
-  }
+  };
 
   componentDidMount () {
     this.getArticles();
   }
 
   handleChangeForCheckbox = () => {
-    this.setState({ checked: !this.state.checked });
+    this.setState({ user_articles: !this.state.user_articles, page: 1 }, () => {
+      this.getArticles();
+    });
   };
 
   handleChangeForSort = (event) => {
@@ -39,60 +45,82 @@ class HelloWorld extends React.Component {
     });
   };
 
-  updateName = (name) => {
-    this.setState({ name });
-  };
+  componentDidMount() {
+    this.getArticles(false);
+    window.onpopstate = () => {
+      const state = window.history.state || {};
+      this.setState( state , () => {
+        this.getArticles(false);
+      });
+    };
+  }
 
   handlePageForPagin = (e, { activePage }) => {
-    const gotopage = { activePage };
-    const pagenum = gotopage.activePage;
-    const pagestring = pagenum.toString();
-    const url = "/api/v1/articles";
-    requestmanager.request(url + "?page=" + pagestring).then((resp) => {
-      this.setState({ page: activePage, loading: false, articles: resp.articles });
-    }).catch(() => {});
+    this.setState({ page: activePage}, () => this.getArticles());
   }
 
   submitForm = () => {
     const params = { user: { nickname: this.state.name } };
-    const url = "/api/v1/users/" + this.props.id;
-    console.log(url);
+    const url = '/api/v1/users/' + this.props.id;
     requestmanager.request(url, "put", params).then((resp) => {
-      console.log(resp);
-    }).catch(() => {});
+     }).catch(() => {});
   };
 
-  getArticles = () => {
-    const url = "/api/v1/articles";
-    requestmanager.request(url + "?sort_by=" + this.state.sortingValue).then((resp) => {
-      this.setState({ articles: resp.articles, pageCount: resp.page_count });
+  getArticles = (pushState=true) => {
+    const url = '/api/v1/articles';
+    if (!this.state.loading) this.setState({loading: true});
+    const additionalParams = {
+      sort_by: this.state.sortingValue,
+      page: this.state.page,
+      user_articles: this.state.user_articles
+    };
+    const params = Object.keys(additionalParams).map(function(key, index) {
+      return key + "=" + additionalParams[key];
+    }).join("&");
+    requestmanager.request(url + '?' + params).then((resp) => {
+      this.setState({ articles: resp.articles, pageCount: resp.page_count, loading: false });
     }).catch(() => {});
+    if (pushState) this.pushURLByParam();
+  }
+
+  pushURLByParam = () => {
+    const additionalParams = {
+      sortingValue: this.state.sortingValue,
+      page: this.state.page,
+      user_articles: this.state.user_articles
+    };
+    const url = '/hello_world'
+    const params = Object.keys(additionalParams).map(function(key, index) {
+      return key + "=" + additionalParams[key];
+    }).join("&");
+    history.pushState(additionalParams, null, url + '?' + params);
   }
 
   makeArticle = (article, index) => {
     return (
-      <div key={index}>
+      <div className="articleClass" key={index}>
         <ul>
-          <hr />
-          <div>
-            <p>
-              Title: {article.title}
-              <br />
-              Description: {article.description}
-              <br />
-              Created at: {article.created_at}
-              <br />
-              User email: {article.user_email}
-            </p>
-          </div>
+        <hr/>
+          <p style={{margin: 0}} className="articleTitle">
+            Title: {article.title}
+          </p>
+          <p style={{margin: 0}} className="articleDescription">
+            Description: {article.description}
+          </p>
+          <p style={{margin: 0}} className="articleCreatedTime">
+            Created at: {article.created_at}
+          </p>
+          <p style={{margin: 0}} className="articleUserEmail">
+            User email: {article.user_email}
+          </p>
         </ul>
       </div>
     );
   }
 
-  render () {
-    const { checked, articles } = this.state;
-    const filteredArticles = checked ? articles.filter(a => a.user_id === this.props.id) : articles;
+  render() {
+    if (this.state.loading) return <Loader active size="large">Loading</Loader>;
+    const { articles } = this.state;
     return (
       <Container>
         <div>
@@ -105,41 +133,42 @@ class HelloWorld extends React.Component {
               Say hello to:
             </label>
             <input
-                id="name"
-                onChange={(e) => this.updateName(e.target.value)}
-                type="text"
-                value={this.state.name} />
+              id="name"
+              type="text"
+              value={this.state.name}
+              onChange={(e) => this.updateName(e.target.value)}
+            />
             <input
-                handleonClick={this.submitForm}
-                id="submit"
-                type="button"
-                value="submit" />
+              id="submit"
+              type="button"
+              value="submit"
+              onClick={this.submitForm}
+            />
           </form>
           <div>
             <label>Only current user article</label>
             <input
-                checked={this.state.checked}
-                onChange={this.handleChangeForCheckbox}
-                type="checkbox" />
+              type="checkbox"
+              checked={ this.state.user_articles }
+              onChange={ this.handleChangeForCheckbox } />
           </div>
-          <select
-              onChange={this.handleChangeForSort}
-              value={this.state.sortingValue}>
-            <option value="blank"> Sort by </option>
-            <option value="sort_by_users_email"> Sort by user email</option>
-            <option value="sort_by_title"> Sort by title</option>
-            <option value="sort_by_description_length"> Sort by description</option>
-          </select>
-          <div>
-            {filteredArticles.map(this.makeArticle)}
+            <select className="selectForSort"
+              value={this.state.sortingValue}
+              onChange={ this.handleChangeForSort }>
+              <option value="blank" className="sortBlank"> Sort by </option>
+              <option value="users_email"> Sort by user email</option>
+              <option value="title"> Sort by title</option>
+              <option value="description_length"> Sort by description</option>
+            </select>
+          <div className="allArticles">
+            {articles.map(this.makeArticle)}
           </div>
-          <Container>
-            <Pagination
-                defaultActivePage={this.state.page} ellipsisItem={null} onPageChange={this.handlePageForPagin}
-                siblingRange='6'
-                size='large'
-                totalPages={this.state.pageCount} />
-          </Container>
+          <Pagination
+              onPageChange={this.handlePageForPagin}
+              size='large' siblingRange='6'
+              defaultActivePage={this.state.page}
+              totalPages={this.state.pageCount}
+              ellipsisItem={null}/>
         </div>
       </Container>
     );

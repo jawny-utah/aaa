@@ -7,6 +7,7 @@ class Api::V1::ArticlesController < ApplicationController
   end
 
   def articles
-    @articles ||= Article.order_list(params[:sort_by]).paginate(page: params[:page]).includes([:user])
+    filtered_articles = params[:user_articles] == 'true' ? current_user.articles : Article
+    @articles ||= filtered_articles.order_list(params[:sort_by]).paginate(page: params[:page])
   end
 end

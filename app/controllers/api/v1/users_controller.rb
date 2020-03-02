@@ -8,9 +8,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    if current_user.update(user_params)
-      render json: { nickname: current_user.nickname }, status: :ok
-    end
+    render json: { nickname: current_user.nickname }, status: :ok if current_user.update(user_params)
   end
 
   private

@@ -11,12 +11,22 @@
         Article description:<br>
         <%= f.text_field :description %>
       </p>
+      <p>
+        <% if(@article.user_id == current_user.id) || current_user.admin? %>
+          Select user for grant access:<br>
+          <%= f.select(:user_ids,
+                        options_for_select(users_for_articles([@article.user_id]),
+                        selected: @article.user_ids),
+                        { include_blank: false },
+                        { multiple: true }) %>
+        <% end %>
+      </p>
       <br>
         <%= f.submit %>
       <% end %>
       <hr>
       <p>
-        <%= link_to "Back", '/' %>
+        <%= link_to "Back", :back %>
       </p>
     </div>
   </div>

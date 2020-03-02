@@ -8,12 +8,13 @@
       Date of birth: <%= @user.birthday %></p>
       <div class="all-articles">
       <% if @user == current_user %>
-        <% @user.articles.each do |article| %>
+        <% Article.handle_user(current_user.id).each do |article| %>
         <div class="accepted-articles-current-user">
           <hr>
           Article title: <%= article.title %><br>
           Article description: <%= article.description %><br>
           Status (accepted): <%= article.accepted %><br>
+          Has permission to articles: <%= article.user_ids %><br>
           <%= link_to "Edit article", edit_article_path(article.id), :class => 'btn btn-warning' %>
           <%= link_to "Delete article", article_path(article.id), method: :delete, data: { confirm: "Are you sure?" }, :class => 'btn btn-danger' %>
           <hr>

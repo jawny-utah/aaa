@@ -2,18 +2,28 @@
 <label for="menu" class="menu">?
 </label>
 <div class="container-fluid">
-  <h1 id="fixed-header" class="jumbotron card text-center"><b>Адаптивная по ширине
-  <br>
-  <p><%= current_user.email if user_signed_in? %></p>
-  <a class="btn btn-light" rel="nofollow" data-method="get" href="/users/sign_in">Sign in</a>
-  <% if user_signed_in?%>
-    <a class="btn btn-light" rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a>
-    <% if current_user.confirmed? %>
+  <div class="jumbotron card text-center" id="fixed-header">
+    <h1><b>Адаптивная по ширине</b></h1>
+    <br>
+    <% if user_signed_in?%>
+      <h1> Hello, <%= current_user.nickname %></h1>
+      <div>
+        <a class="btn btn-light" rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a>
+      <% if current_user.confirmed? %>
+        <% else %>
+        <a class="btn btn-light" rel="nofollow" date-method="get" href="/users/confirmation">Confirm user</a>
+        <% end %>
+      </div>
       <% else %>
-      <a class="btn btn-light" rel="nofollow" date-method="get" href="/users/confirmation">Confirm user</a>
-      <% end %>
+      <div>
+          <p class="btn btn-light"><%= link_to 'Sign in', new_user_session_path, method: 'get'%></p>
+          <p class="btn btn-light"><%= link_to 'Sign in w/ facebook',
+                                                    user_facebook_omniauth_authorize_path %></p>
+          <p class="btn btn-light"><%= link_to 'Sign in w/ google',
+                                                    user_google_oauth2_omniauth_authorize_path %></p>
+      </div>
     <% end %>
-  </b></h1>
+  </div>
 </div>
 <nav class="nav">
   <ul style="list-style: none">
@@ -99,22 +109,24 @@
                     <h2><%= link_to "All users articles", articles_path %></h2>
                     <hr>
                     <% if user_signed_in? %>
-                      <h2><%= link_to "Create new article", new_article_path %></h2>
-                      <hr>
-                      <h4 class="d-block pb-0 mb-0"> Email: <b><%= current_user.email %></b></h4>
-                      <p> User role: <b><%= current_user.role %></b></p>
-                      <p> Date of birth: <%= current_user.birthday %></p>
-                      <%= link_to "Show user", user_path(current_user) %>
-                      <hr>
+                        <h2><%= link_to "Create new article", new_article_path %></h2>
+                        <div class="current-user-art">
+                          <hr>
+                          <h4 class="d-block pb-0 mb-0"> Email: <b><%= current_user.email %></b></h4>
+                          <p> User role: <b><%= current_user.role %></b></p>
+                          <p> Date of birth: <%= current_user.birthday %></p>
+                          <%= link_to "Show user", user_path(current_user) %>
+                          <hr>
+                        </div>
                       <% end %>
                     <% @users.each do |user| %>
-                      <p>
+                      <div class="other-users">
                         <h4 class="d-block pb-0 mb-0"> Email: <b><%= user.email %></b></h4>
                         <p> User role: <b><%= user.role %></b></p>
                         <p> Date of birth: <%= user.birthday %></p>
                         <%= link_to "Show user", user_path(user) %>
                         <hr>
-                      </p>
+                      </div>
                     <% end %>
                   </div>
                 </div>

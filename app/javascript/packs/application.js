@@ -18,3 +18,11 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+window.addEventListener("load", function(){
+  jQuery('option').mousedown(function(e) {
+    e.preventDefault();
+    jQuery(this).toggleClass('selected');
+    jQuery(this).prop('selected', !jQuery(this).prop('selected'));
+    return false;
+  });
+});

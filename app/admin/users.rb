@@ -7,6 +7,7 @@ ActiveAdmin.register User do
     selectable_column
     id_column
     column :email
+    column :provider
     column :nickname
     column :created_at
     column :birthday, &:birthday
@@ -21,6 +22,7 @@ ActiveAdmin.register User do
       row :name
       row :nickname
       row :email
+      row :provider
       row :birthday, &:birthday
       row :role do |user|
         user.role.presence

@@ -12,11 +12,11 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    @article = current_user.articles.find(params[:id])
+    @article = Article.handle_user(current_user.id).find(params[:id])
   end
 
   def update
-    @article = current_user.articles.find(params[:id])
+    @article = Article.handle_user(current_user.id).find(params[:id])
 
     if @article.update(article_params)
       redirect_to current_user
@@ -47,6 +47,6 @@ class ArticlesController < ApplicationController
 
   private
   def article_params
-    params.require(:article).permit(:title, :description)
+    params.require(:article).permit(:title, :description, user_ids: [])
   end
 end
