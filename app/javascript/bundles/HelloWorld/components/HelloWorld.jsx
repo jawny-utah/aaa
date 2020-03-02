@@ -8,10 +8,11 @@ export default class HelloWorld extends React.Component {
     name: PropTypes.string.isRequired // this is passed from the Rails view
   };
 
+class HelloWorld extends React.Component {
   /**
    * @param props - Comes from your rails view.
    */
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     // How to set initial state in ES6 class syntax
@@ -27,9 +28,9 @@ export default class HelloWorld extends React.Component {
     };
   };
 
-  updateName = (name) => {
-    this.setState({ name });
-  };
+  componentDidMount () {
+    this.getArticles();
+  }
 
   handleChangeForCheckbox = () => {
     this.setState({ user_articles: !this.state.user_articles, page: 1 }, () => {
@@ -38,7 +39,7 @@ export default class HelloWorld extends React.Component {
   };
 
   handleChangeForSort = (event) => {
-    let sortingValue = event.target.value;
+    const sortingValue = event.target.value;
     this.setState({ sortingValue }, () => {
       this.getArticles();
     });
@@ -173,3 +174,9 @@ export default class HelloWorld extends React.Component {
     );
   }
 }
+
+HelloWorld.propTypes = {
+  name: PropTypes.string.isRequired
+};
+
+export default HelloWorld;

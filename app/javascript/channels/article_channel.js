@@ -1,4 +1,4 @@
-import consumer from "./consumer"
+import consumer from "./consumer";
 window.subArticles = function(id) {
   consumer.subscriptions.create({channel: "ArticleChannel", id: id}, {
     connected() {
@@ -14,4 +14,4 @@ window.subArticles = function(id) {
       // Called when there's incoming data on the websocket for this channel
     }
   });
-}
+};
