@@ -9,6 +9,7 @@ class User < ApplicationRecord
   enum role: %i[admin guest]
   has_many :articles, dependent: :destroy
   has_many :notes, dependent: :destroy
+  has_one :setting, dependent: :destroy
   validates :nickname, presence: true
   validates :nickname, uniqueness: { case_sensitive: false }
 

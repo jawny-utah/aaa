@@ -110,6 +110,8 @@
                     <hr>
                     <% if user_signed_in? %>
                         <h2><%= link_to "Create new article", new_article_path %></h2>
+                        <br>
+                        <h2><%= link_to "Choose color theme", current_user.setting.blank? ? new_setting_path : edit_setting_path(current_user.setting.id) %></h2>
                         <div class="current-user-art">
                           <hr>
                           <h4 class="d-block pb-0 mb-0"> Email: <b><%= current_user.email %></b></h4>

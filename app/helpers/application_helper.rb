@@ -14,4 +14,8 @@ module ApplicationHelper
       o
     end
   end
+
+  def user_setting
+    @user_setting ||= current_user&.setting || Setting.new
+  end
 end
