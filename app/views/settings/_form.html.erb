@@ -1,0 +1,20 @@
+<div>
+  <div class='jumbotron'>
+    <h1>Choose theme colors
+    </h1>
+  </div>
+  <div class='container'>
+    <h3>
+    <%= form_for @setting do |f| %>
+      Input header color: <%= f.color_field :header_color %>
+      <br>
+      Input background color: <%= f.color_field :background_color %>
+      <br>
+      Input main card color: <%= f.color_field :information_color %>
+      <br>
+      <%= f.submit({:class => 'btn btn-warning'}) %>
+    <% end %>
+    <%= link_to 'Back', '/' %>
+    </h3>
+  </div>
+</div>
