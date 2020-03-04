@@ -9,6 +9,7 @@ gem 'active_model_serializers'
 gem 'activeadmin'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap', '~> 4.4.1'
+gem 'capybara-email'
 gem 'devise'
 gem 'faker'
 gem 'friendly_id'

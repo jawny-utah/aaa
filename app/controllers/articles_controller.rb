@@ -7,10 +7,6 @@ class ArticlesController < ApplicationController
                   .paginate(page: params[:page]).includes([:user])
   end
 
-  def show
-    @article = Article.find(params[:id])
-  end
-
   def edit
     @article = Article.handle_user(current_user.id).find(params[:id])
   end

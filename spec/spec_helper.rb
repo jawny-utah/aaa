@@ -13,14 +13,25 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-
+require 'omniauth'
 require 'simplecov'
-SimpleCov.start
+require './spec/support/omni_auth_test_helper'
+require './spec/support/failure_sign_in'
+require 'capybara/email/rspec'
+SimpleCov.start('rails') do
+  add_filter 'app/admin/'
+  add_filter 'config/initializers/'
+  add_filter '/rails_helper.rb'
+  add_filter 'app/mailers/application_mailer.rb'
+end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
+  config.include (OmniAuthTestHelper)
+  config.include (FailureSignIn)
+
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
     # and `failure_message` of custom matchers include text for helper methods
@@ -31,7 +42,7 @@ RSpec.configure do |config|
     #     # => "be bigger than 2"
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
-
+  OmniAuth.config.test_mode = true
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
   config.mock_with :rspec do |mocks|

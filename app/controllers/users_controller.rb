@@ -8,6 +8,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.friendly.find(params[:id])
-    redirect_to home_path unless @user.articles.accepted.any? || @user == current_user
+    redirect_to home_path unless @user.articles.accepted.any? || @user == current_user || current_user&.admin?
   end
 end

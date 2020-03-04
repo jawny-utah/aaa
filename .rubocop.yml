@@ -9,7 +9,7 @@ AllCops:
    - 'db/**/*'
    - 'vendor/bundle/**/*'
    - 'node_modules/**/*'
-   - 'spec/*'
+   - 'spec/**/*'
    - 'config/environments/*'
 
 Metrics/AbcSize:
@@ -54,6 +54,7 @@ Metrics/BlockLength:
     - 'lib/tasks/*'
 
 Metrics/MethodLength:
+  Max: 20
   Exclude:
     - 'db/migrate/*'
 

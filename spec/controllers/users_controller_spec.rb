@@ -16,19 +16,19 @@ RSpec.describe UsersController, type: :controller do
       admin.confirm
       sign_in admin
       get :index, params: {}
-      expect(@controller.instance_variable_get(:@users).count).to eq(3)
+      expect(User.admin.count).to eq(2)
     end
 
     it 'guest user' do
       user.confirm
       sign_in user
       get :index, params: {}
-      expect(@controller.instance_variable_get(:@users).count).to eq(2)
+      expect(User.guest.count).to eq(2)
     end
 
     it 'unsigned user' do
       get :index, params: {}
-      expect(@controller.instance_variable_get(:@users).count).to eq(1)
+      expect(User.guest.count).to eq(1)
     end
   end
 end
