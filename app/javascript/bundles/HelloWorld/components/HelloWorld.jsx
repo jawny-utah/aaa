@@ -1,17 +1,13 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import requestmanager from '../../lib/requestmanager';
-import { Pagination, Container, Loader } from 'semantic-ui-react';
+import PropTypes from "prop-types";
+import React from "react";
+import requestmanager from "../../lib/requestmanager";
+import { Pagination, Container, Loader } from "semantic-ui-react";
 
 export default class HelloWorld extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired // this is passed from the Rails view
   };
 
-class HelloWorld extends React.Component {
-  /**
-   * @param props - Comes from your rails view.
-   */
   constructor (props) {
     super(props);
 
@@ -26,11 +22,21 @@ class HelloWorld extends React.Component {
       pageCount: 1,
       page: parseInt(this.props.page) || 1
     };
-  };
-
-  componentDidMount () {
-    this.getArticles();
   }
+
+  componentDidMount() {
+    this.getArticles(false);
+    window.onpopstate = () => {
+      const state = window.history.state || {};
+      this.setState( state , () => {
+        this.getArticles(false);
+      });
+    };
+  }
+
+  updateName = (name) => {
+    this.setState({ name });
+  };
 
   handleChangeForCheckbox = () => {
     this.setState({ user_articles: !this.state.user_articles, page: 1 }, () => {
@@ -45,29 +51,19 @@ class HelloWorld extends React.Component {
     });
   };
 
-  componentDidMount() {
-    this.getArticles(false);
-    window.onpopstate = () => {
-      const state = window.history.state || {};
-      this.setState( state , () => {
-        this.getArticles(false);
-      });
-    };
-  }
-
   handlePageForPagin = (e, { activePage }) => {
     this.setState({ page: activePage}, () => this.getArticles());
   }
 
   submitForm = () => {
     const params = { user: { nickname: this.state.name } };
-    const url = '/api/v1/users/' + this.props.id;
+    const url = "/api/v1/users/" + this.props.id;
     requestmanager.request(url, "put", params).then((resp) => {
      }).catch(() => {});
   };
 
   getArticles = (pushState=true) => {
-    const url = '/api/v1/articles';
+    const url = "/api/v1/articles";
     if (!this.state.loading) this.setState({loading: true});
     const additionalParams = {
       sort_by: this.state.sortingValue,
@@ -77,7 +73,7 @@ class HelloWorld extends React.Component {
     const params = Object.keys(additionalParams).map(function(key, index) {
       return key + "=" + additionalParams[key];
     }).join("&");
-    requestmanager.request(url + '?' + params).then((resp) => {
+    requestmanager.request(url + "?" + params).then((resp) => {
       this.setState({ articles: resp.articles, pageCount: resp.page_count, loading: false });
     }).catch(() => {});
     if (pushState) this.pushURLByParam();
@@ -89,28 +85,28 @@ class HelloWorld extends React.Component {
       page: this.state.page,
       user_articles: this.state.user_articles
     };
-    const url = '/hello_world'
+    const url = "/hello_world";
     const params = Object.keys(additionalParams).map(function(key, index) {
       return key + "=" + additionalParams[key];
     }).join("&");
-    history.pushState(additionalParams, null, url + '?' + params);
+    history.pushState(additionalParams, null, url + "?" + params);
   }
 
   makeArticle = (article, index) => {
     return (
       <div className="articleClass" key={index}>
         <ul>
-        <hr/>
-          <p style={{margin: 0}} className="articleTitle">
+          <hr />
+          <p className="articleTitle" style={{margin: 0}}>
             Title: {article.title}
           </p>
-          <p style={{margin: 0}} className="articleDescription">
+          <p className="articleDescription" style={{margin: 0}}>
             Description: {article.description}
           </p>
-          <p style={{margin: 0}} className="articleCreatedTime">
+          <p className="articleCreatedTime" style={{margin: 0}}>
             Created at: {article.created_at}
           </p>
-          <p style={{margin: 0}} className="articleUserEmail">
+          <p className="articleUserEmail" style={{margin: 0}}>
             User email: {article.user_email}
           </p>
         </ul>
@@ -133,50 +129,43 @@ class HelloWorld extends React.Component {
               Say hello to:
             </label>
             <input
-              id="name"
-              type="text"
-              value={this.state.name}
-              onChange={(e) => this.updateName(e.target.value)}
-            />
+                id="name"
+                onChange={(e) => this.updateName(e.target.value)}
+                type="text"
+                value={this.state.name} />
             <input
-              id="submit"
-              type="button"
-              value="submit"
-              onClick={this.submitForm}
-            />
+                id="submit"
+                onClick={this.submitForm}
+                type="button"
+                value="submit" />
           </form>
           <div>
             <label>Only current user article</label>
             <input
-              type="checkbox"
-              checked={ this.state.user_articles }
-              onChange={ this.handleChangeForCheckbox } />
+                checked={this.state.user_articles}
+                onChange={this.handleChangeForCheckbox}
+                type="checkbox" />
           </div>
-            <select className="selectForSort"
-              value={this.state.sortingValue}
-              onChange={ this.handleChangeForSort }>
-              <option value="blank" className="sortBlank"> Sort by </option>
-              <option value="users_email"> Sort by user email</option>
-              <option value="title"> Sort by title</option>
-              <option value="description_length"> Sort by description</option>
-            </select>
+          <select
+              className="selectForSort"
+              onChange={this.handleChangeForSort}
+              value={this.state.sortingValue}>
+            <option className="sortBlank" value="blank"> Sort by </option>
+            <option value="users_email"> Sort by user email</option>
+            <option value="title"> Sort by title</option>
+            <option value="description_length"> Sort by description</option>
+          </select>
           <div className="allArticles">
             {articles.map(this.makeArticle)}
           </div>
           <Pagination
-              onPageChange={this.handlePageForPagin}
-              size='large' siblingRange='6'
               defaultActivePage={this.state.page}
-              totalPages={this.state.pageCount}
-              ellipsisItem={null}/>
+              ellipsisItem={null} onPageChange={this.handlePageForPagin}
+              siblingRange='6'
+              size='large'
+              totalPages={this.state.pageCount} />
         </div>
       </Container>
     );
   }
 }
-
-HelloWorld.propTypes = {
-  name: PropTypes.string.isRequired
-};
-
-export default HelloWorld;

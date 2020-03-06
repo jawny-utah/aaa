@@ -12,6 +12,5 @@ require 'rails_helper'
 #     end
 #   end
 # end
-RSpec.describe ColorPagesHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe SettingsHelper, type: :helper do
 end
