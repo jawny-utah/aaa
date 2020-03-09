@@ -1,7 +1,7 @@
 # README
-[![CircleCI](https://circleci.com/gh/sheva233/aaa/tree/pr-53%2Fsheva233%2Fcircleci-project-setup.svg?style=svg)](https://circleci.com/gh/sheva233/aaa/tree/pr-53%2Fsheva233%2Fcircleci-project-setup)
+[![CircleCI](https://circleci.com/gh/sheva233/aaa/tree/master.svg?style=svg)](https://circleci.com/gh/sheva233/aaa/tree/master)
 
-[![CircleCI](https://circleci.com/gh/sheva233/aaa/tree/pr-53%2Fsheva233%2Fcircleci-project-setup.svg?style=shield)](https://circleci.com/gh/sheva233/aaa/tree/pr-53%2Fsheva233%2Fcircleci-project-setup)
+[![CircleCI](https://circleci.com/gh/sheva233/aaa/tree/master.svg?style=shield)](https://circleci.com/gh/sheva233/aaa/tree/master)
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
