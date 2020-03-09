@@ -68,7 +68,7 @@ Rails/SkipsModelValidations:
   Enabled: false
 
 Style/ClassAndModuleChildren:
-  EnforcedStyle: compact
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
@@ -97,9 +97,6 @@ Style/WordArray:
 Layout/EmptyLinesAroundAccessModifier:
   Enabled: false
 
-Style/BracesAroundHashParameters:
-  EnforcedStyle: context_dependent
-
 Layout/LineLength:
   Max: 120
   Exclude:
@@ -113,6 +110,15 @@ Rails/HasAndBelongsToMany:
   Enabled: false
 
 Rails/EnumHash:
+  Enabled: false
+
+Style/HashTransformValues:
+  Enabled: false
+
+Style/HashTransformKeys:
+  Enabled: false
+
+Style/HashEachMethods:
   Enabled: false
 
 Style/FormatStringToken:
