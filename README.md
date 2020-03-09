@@ -1,5 +1,4 @@
 # README
-[![CircleCI](https://circleci.com/gh/sheva233/aaa/tree/master.svg?style=svg)](https://circleci.com/gh/sheva233/aaa/tree/master)
 
 [![CircleCI](https://circleci.com/gh/sheva233/aaa/tree/master.svg?style=shield)](https://circleci.com/gh/sheva233/aaa/tree/master)
 
