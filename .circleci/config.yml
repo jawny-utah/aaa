@@ -4,7 +4,12 @@ orbs:
 
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
-    parallelism: 3 # run three instances of this job in parallel
+    working_directory: ~/aaa
+    parallelism: 2
+    shell: /bin/bash --login
+    environment:
+      RAILS_ENV: test
+      COVERAGE: true
     docker: # run the steps with Docker
       - image: circleci/ruby:2.6.3-node-browsers # ...with this image as the primary container; this is where all `steps` will run
         environment: # environment variables for primary container
@@ -12,16 +17,47 @@ jobs: # a collection of steps
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
           PGHOST: 127.0.0.1
-          PGUSER: circleci-demo-ruby
-          RAILS_ENV: test
-      - image: circleci/postgres:9.6.2-alpine # database image
+          PGUSER: root
+      - image: circleci/postgres:10.4-alpine-postgis # database image
         environment: # environment variables for database
           POSTGRES_USER: root
           POSTGRES_DB: aaa_db
           POSTGRES_PASSWORD: ""
       - image: selenium/standalone-chrome:3.1.0
+      - image: redis:4.0.9
+
     steps: # a collection of executable commands
       - checkout # special step to check out source code to working directory
+      - restore_cache:
+          keys:
+            # This branch if available
+            - v2-dep-{{ .Branch }}-
+            # Default branch if not
+            - v2-dep-master-
+            # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
+            - v2-dep-
+
+      - run:
+          name: "Apt: install system / build dependencies"
+          command: |
+            sudo apt-get update
+            sudo apt-get -y install \
+              curl \
+              libcurl4-gnutls-dev \
+              libexpat1-dev \
+              libssl-dev \
+              libz-dev \
+              postgresql-client
+
+      - run:
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.6.1
+
+      - run:
+          name: install system libraries
+          command: sudo apt-get update
 
       - run: # Install Ruby dependencies
           name: Bundle Install
@@ -71,12 +107,18 @@ jobs: # a collection of steps
           name: Yarn Install
           command: yarn install --cache-folder ~/.cache/yarn
 
+
       # Store yarn / webpacker cache
       - save_cache:
           key: rails-demo-yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
 
+      - run:
+          name: Install Code Climate Test Reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
@@ -85,23 +127,76 @@ jobs: # a collection of steps
           name: install bundles
           command: bundle install
 
-      - run: sudo apt install -y postgresql-client || true
+      - run: bundle exec rake assets:precompile
+
+      - save_cache:
+          key: v2-dep-{{ .Branch }}-{{ epoch }}
+          paths:
+            - ./vendor/bundle
+            - ~/.bundle
+            - public/assets
+            - tmp/cache/assets/sprockets
+            - ~/.cache/yarn
 
       - run:
           name: Set up DB
           command: |
-            bundle exec rake db:create db:schema:load --trace
+            bundle exec rake db:create db:schema:load db:structure --trace
             bundle exec rake db:migrate
 
-      # - run:
-      #     name: Parallel RSpec
-      #     command: bin/rails test
-      #
+      - run:
+          name: rubocop run
+          command: bundle exec rubocop
+
       - run:
           name: Run rspec in parallel
           command: |
-            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb")
+            mkdir -p test-results/rspec test-artifacts
+            ./cc-test-reporter before-build
+            bundle exec rspec --out test-results/rspec/rspec.xml \
+                              --require rails_helper \
+                              --format progress \
+                              -- $(circleci tests glob "spec/**/*_spec.rb | circleci tests split --split-by=timings")
+      - run:
+          name: Code Climate Test Coverage
+          command: |
+            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
-      # Save test results for timing analysis
-      - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: test_results
+      - persist_to_workspace:
+          root: coverage
+          paths:
+            - codeclimate.*.json
+
+      - store_test_results:
+          path: test-results
+
+      - store_artifacts:
+          path: test-artifacts
+
+  upload-coverage:
+    docker:
+      - image: circleci/ruby:2.6.3-node-browsers
+    environment:
+      CC_TEST_REPORTER_ID: ea76e84facc669f837ea55ae7d44b23d189fcbf623b985fadf44c556790f10d3
+    working_directory: ~/aaa
+
+    steps:
+      - attach_workspace:
+          at: ~/aaa
+      - run:
+          name: Install Code Climate Test Reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
+          command: |
+            ./cc-test-reporter sum-coverage --output - codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -
+workflows:
+  version: 2.1
+
+  commit:
+    jobs:
+      - build
+      - upload-coverage:
+          requires:
+             - build
