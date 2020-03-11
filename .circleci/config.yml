@@ -23,7 +23,7 @@ jobs: # a collection of steps
           POSTGRES_USER: root
           POSTGRES_DB: aaa_db
           POSTGRES_PASSWORD: ""
-      - image: selenium/standalone-chrome:3.1.0
+      - image: selenium/standalone-chrome-debug:3.141.59
       - image: redis:4.0.9
 
     steps: # a collection of executable commands
@@ -153,9 +153,10 @@ jobs: # a collection of steps
           command: |
             mkdir -p test-results/rspec test-artifacts
             ./cc-test-reporter before-build
-            bundle exec rspec --out test-results/rspec/rspec.xml \
+            bundle exec rspec --format progress \
+                              --format RspecJunitFormatter \
+                              --out test-results/rspec/rspec.xml \
                               --require rails_helper \
-                              --format progress \
                               -- $(circleci tests glob "spec/**/*_spec.rb | circleci tests split --split-by=timings")
       - run:
           name: Code Climate Test Coverage
