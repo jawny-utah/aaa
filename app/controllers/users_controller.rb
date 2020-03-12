@@ -10,4 +10,15 @@ class UsersController < ApplicationController
     @user = User.friendly.find(params[:id])
     redirect_to home_path unless @user.articles.accepted.any? || @user == current_user || current_user&.admin?
   end
+
+  def email_activate
+    current_user.confirm
+    current_user.save
+    redirect_to '/'
+  end
+
+  def send_email_confirmation
+    ModelMailer.new_record_notification(current_user).deliver
+    redirect_to '/'
+  end
 end
