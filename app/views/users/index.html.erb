@@ -11,7 +11,7 @@
         <a class="btn btn-light" rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a>
       <% if current_user.confirmed? %>
         <% else %>
-        <a class="btn btn-light" rel="nofollow" date-method="get" href="/users/confirmation">Confirm user</a>
+          <%= link_to 'Confirm user', send_email_confirmation_path(current_user), class: 'btn btn-light' %>
         <% end %>
       </div>
       <% else %>

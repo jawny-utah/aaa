@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register User do
-  permit_params :email, :nickname, :role, :birthday, :password, :password_confirmation
+  permit_params :email, :nickname, :role, :birthday, :password, :password_confirmation, :confirmed?
 
   index do
     selectable_column
@@ -10,6 +10,7 @@ ActiveAdmin.register User do
     column :provider
     column :nickname
     column :created_at
+    column :confirmed?
     column :birthday, &:birthday
     column :role do |user|
       user.role.presence
@@ -23,6 +24,7 @@ ActiveAdmin.register User do
       row :nickname
       row :email
       row :provider
+      row :confirmed?
       row :birthday, &:birthday
       row :role do |user|
         user.role.presence
@@ -40,6 +42,7 @@ ActiveAdmin.register User do
       f.input :email
       f.input :nickname
       f.input :birthday
+      f.input :confirm
       f.input :role
     end
     f.actions

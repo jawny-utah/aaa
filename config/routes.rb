@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   root 'users#index', as: 'home'
 
+  get '/send_email_confirmation/:id' => 'users#send_email_confirmation', as: 'send_email_confirmation'
+  get '/email_activate/:id' => 'users#email_activate', as: 'email_activate'
   resources :articles
   resources :users
   resources :settings

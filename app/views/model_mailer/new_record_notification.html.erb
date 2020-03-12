@@ -1,0 +1,9 @@
+<div>
+  <h1>Hello, <%= @user.nickname %>!</h1>
+
+  <p>
+     To confirm your email click the link below
+     <br>
+     <%= link_to 'Confirm Email', email_activate_url(@user) %>
+  </p>
+</div>
